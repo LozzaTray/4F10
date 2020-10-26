@@ -1,7 +1,7 @@
 \documentclass[]{article}
 
 %opening
-\title{4F10 Probabilistic Machine Learning - Gaussian Processes}
+\title{4F13 Probabilistic Machine Learning - Gaussian Processes}
 \author{Lawrence Tray \\ St John's College}
 
 %packages
@@ -39,6 +39,20 @@
 
 \section{Questions}
 \subsection{Squared Exponential Covariance Function}
+We start with a simple squared exponential (SE) covariance function. As we start by working in one dimension this is necessarily isotropic. The covariance function is given by:
+%
+\begin{equation}
+k(x, x') = \nu^2 \exp\left\{- \frac{(x-x')^2}{2l^2}\right\}
+\label{eqn:covSEiso}
+\end{equation}
+%
+The hyperparameters are $\nu$ and $l$ which control the baseline variance level and length scale of variation respectively. We load in the training data from \textit{'cw1a.mat'} and train a GP model, with zero mean and covariance function given by equation \ref{eqn:covSEiso}. We train the model by minimising the negative log marginal likelihood. The hyperparameters are trained as follows:
+%
+\begin{alignat}{3}
+\log \nu &: -&&1 \mapsto -2.0540 \\
+\log l &: &&0 \mapsto -0.1087
+\end{alignat}
+
 \subsection{Hyperparameter Initialisation}
 \subsection{Periodic Covariance Function}
 \subsection{Cholesky Decomposition}
