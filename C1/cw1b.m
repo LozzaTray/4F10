@@ -5,7 +5,7 @@ covfunc = @covSEiso;              % Squared Exponental covariance function
 likfunc = @likGauss;              % Gaussian likelihood
 
 % initial params
-cov = [-1, 0];
+cov = [-0.45, 0]; % [log(l), log(v)]
 lik = 0;
 
 % minimise likelihood

@@ -1,11 +1,11 @@
 load("cw1a.mat")
 
 meanfunc = [];                    % empty: don't use a mean function
-covfunc = @covSEiso;              % Squared Exponental covariance function
+covfunc = @covPeriodic;           % Periodic
 likfunc = @likGauss;              % Gaussian likelihood
 
 % initial params
-cov = [-1, 0];
+cov = [0, 0, 0]; % [log(l), log(p), log(v)]
 lik = 0;
 
 % minimise likelihood

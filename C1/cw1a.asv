@@ -20,8 +20,7 @@ xs = linspace(-3, 3, 1000)';      % test input range
 f = [mu+2*sqrt(s2); flip(mu-2*sqrt(s2),1)];
 fill([xs; flip(xs,1)], f, [7 7 7]/8)
 hold on;
-grid on;
 plot(xs, mu);
 plot(x, y, '+')
-xlabel('Input x');
-legend('95% Error Bounds', 'Function Mean', 'Training Datapoints');
+xlabel('x');
+legend('95% Error Bounds', 'Mean', 'Training ');
