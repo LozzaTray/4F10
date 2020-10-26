@@ -6,16 +6,19 @@ likfunc = @likGauss;              % Gaussian likelihood
 cov = [-0.5, 0, 0, 2, 0];
 lik = 0;
 
-% minimise likelihood
+n = 20;
+x = 2*gpml_randn(0.1, n, 1);
+K = feval(covfunc{:}, hyp.cov, x);
+y = chol(K)'*x;
+
+% define hyperparams
 hyp = struct('mean', [], 'cov', cov, 'lik', lik);
 
-x = linspace(-5, 5, 200);      % test input range
-[mu s2] = gp(hyp, @infGaussLik, meanfunc, covfunc, likfunc, x, []);
-f = [mu+2*sqrt(s2); flip(mu-2*sqrt(s2),1)];
-fill([xs; flip(xs,1)], f, [7 7 7]/8)
+xs = linspace(-5, 5, 200)';      % test input range
+[ymu, ys2, fmu, fs2] = gp(hyp, @infGaussLik, meanfunc, covfunc, likfunc, x, y, xs);
 hold on;
 grid on;
-plot(xs, mu);
-plot(x, y, '+')
+plot(xs, ymu);
+plot(x, y, '+');
 xlabel('Input x');
-legend('95% Error Bounds', 'Function Mean', 'Training Datapoints');
+legend('Sampled Function', 'Training Datapoints');
