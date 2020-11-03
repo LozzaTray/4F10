@@ -15,6 +15,7 @@ hyp2 = minimize(hyp, @gp, -100, @infGaussLik, meanfunc, covfunc, likfunc, x, y);
 
 disp("Trained hyperparameters:");
 disp(hyp2);
+disp(hyp2.cov);
 
 %plotting
 n = 100;

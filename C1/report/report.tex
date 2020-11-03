@@ -170,11 +170,11 @@ k_{ARD}(\mathbf{x}, \mathbf{x}') = \nu^2 \exp\left\{- \frac{1}{2} \sum_{i=1}^{D}
 We wish to compare this simple model with a more complex model. The covariance functions for the simple and additive model are given in equations \ref{eqn:cov-a} and \ref{eqn:cov-b} respectively.The vector $\theta = [\nu, l_1, l_2]$ denotes the hyperparameters of the SE-ARD covariance function.
 
 \begin{equation}
-k_a(\mathbf{x}, \mathbf{x}') = k_{ARD}(\mathbf{x}, \mathbf{x}' ; \theta^a)
+k^a(\mathbf{x}, \mathbf{x}') = k_{ARD}(\mathbf{x}, \mathbf{x}' ; \theta^a)
 \label{eqn:cov-a}
 \end{equation}
 \begin{equation}
-k_b(\mathbf{x}, \mathbf{x}') = k_{ARD}(\mathbf{x}, \mathbf{x}' ; \theta^{b1})
+k^b(\mathbf{x}, \mathbf{x}') = k_{ARD}(\mathbf{x}, \mathbf{x}' ; \theta^{b1})
 + k_{ARD}(\mathbf{x}, \mathbf{x}' ; \theta^{b2})
 \label{eqn:cov-b}
 \end{equation}
@@ -195,23 +195,23 @@ k_b(\mathbf{x}, \mathbf{x}') = k_{ARD}(\mathbf{x}, \mathbf{x}' ; \theta^{b1})
 	\subfloat[Component b1]{
 		\begin{tabular}{c | c c}
 			$\theta^{b1}$ & \textbf{Initial} & \textbf{Final} \\ \hline
-			$\log l_1$         & 0                & 0.413          \\
-			$l_1$              & 1                & 1.511          \\
-			$\log l_2$         & 0                & 0.252          \\
-			$l_2$              & 1                & 1.287          \\
-			$\log \nu$         & 0                & 0.102          \\
-			$\nu$              & 1                & 1.107          
+			$\log l_1$         & 0                & 0.3644         \\
+			$l_1$              & 1                & 1.440          \\
+			$\log l_2$         & 0                & 6.3200         \\
+			$l_2$              & 1                & 555.6          \\
+			$\log \nu$         & 0                & 0.0801         \\
+			$\nu$              & 1                & 1.083        
 		\end{tabular}
 	}
 	\subfloat[Component b2]{
 		\begin{tabular}{c | c c}
 			$\theta^{b1}$ & \textbf{Initial} & \textbf{Final} \\ \hline
-			$\log l_1$         & 0                & 0.413          \\
-			$l_1$              & 1                & 1.511          \\
-			$\log l_2$         & 0                & 0.252          \\
-			$l_2$              & 1                & 1.287          \\
-			$\log \nu$         & 0                & 0.102          \\
-			$\nu$              & 1                & 1.107          
+			$\log l_1$         & 0                & 6.000          \\
+			$l_1$              & 1                & 403.4          \\
+			$\log l_2$         & 0                & -0.0072        \\
+			$l_2$              & 1                & 0.993          \\
+			$\log \nu$         & 0                & -0.3351        \\
+			$\nu$              & 1                & 0.715        
 		\end{tabular}
 	}
 	\caption{Parameter optimisation for 2-D data}
