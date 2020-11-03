@@ -13,6 +13,7 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{parskip}
+\usepackage{listings}
 
 %package setup
 \graphicspath{{./img/}}
@@ -46,11 +47,17 @@
 We start with a simple squared exponential (SE) covariance function. As we start by working in one dimension this is necessarily isotropic. The covariance function is given by:
 
 \begin{equation}
-k(x, x') = \nu^2 \exp\left\{- \frac{(x-x')^2}{2l^2}\right\}
+k_{SE}(x, x') = \nu^2 \exp\left\{- \frac{(x-x')^2}{2l^2}\right\}
 \label{eqn:covSEiso}
 \end{equation}
 
-The hyperparameters are $\nu$ and $l$ which control the baseline variance level and length scale of variation respectively. We load in the training data from \textit{`cw1a.mat'} and train a GP model, with zero mean and covariance function given by equation \ref{eqn:covSEiso}. We train the model by minimising the negative log marginal likelihood (denoted $\Lcal$). Table \ref{tab:hyp-opt} scenario A shows the how the parameters are optimised.
+The hyperparameters are $\nu$ and $l$ which control the baseline variance level and length scale of variation respectively. We load in the training data from \textit{`cw1a.mat'} and train a GP model, with zero mean and covariance function given by equation \ref{eqn:covSEiso}. We train the model by minimising the negative log marginal likelihood (denoted $\Lcal$). This is achieved through the commands in listing \ref{lst:opt}.
+
+\begin{lstlisting}[frame=single, caption={Hyperparameter optimisation}, label={lst:opt}]
+cov = [-1, 0]; lik = 0;
+hyp = struct('mean', [], 'cov', cov, 'lik', lik);
+hyp2 = minimize(hyp, @gp, -100, @infGaussLik, meanfunc, covfunc, likfunc, x, y);
+\end{lstlisting}
 
 \begin{table}[!h]
 \centering
@@ -66,7 +73,7 @@ The hyperparameters are $\nu$ and $l$ which control the baseline variance level 
 \label{tab:hyp-opt}
 \end{table}
 
-This yields a predictor as in figure \ref{fig:1a}. The 95\% error bound is computed by $[\mu(x) - 2\sigma(x), \mu(x) + 2\sigma(x)]$. In other words, as $y \sim \Ncal(\mu(x), \sigma(x)^2)$, there is a 95\% chance of $y$ falling within two standard deviations of the mean (all evaluated at a specific $x$).
+Table \ref{tab:hyp-opt}, scenario A shows one example of optimising the parameters\footnote{The negative log-likelihood $\Lcal$ is not strictly a hyperparameter as we do not directly control its value but it is included in this table for ease of reference} to minimise $\Lcal$. This yields a predictor as in figure \ref{fig:1a}. The 95\% error bound is computed by $[\mu(x) - 2\sigma(x), \mu(x) + 2\sigma(x)]$. In other words, as $y \sim \Ncal(\mu(x), \sigma(x)^2)$, there is a 95\% chance of $y$ falling within two standard deviations of the mean (all evaluated at a specific $x$).
 
 \begin{figure}[!h]
 	\begin{subfigure}{0.5\linewidth}
@@ -89,12 +96,42 @@ We see that the error bars are always centred on the mean and that they have sma
 
 \subsection{Hyperparameter Initialisation}
 
-However, the optimisation only finds a local minimum of the negative log-likelihood $\Lcal$. Therefore, a different intilisation of the hyperparameters can yield different results. This is illustrated in scenario B of table \ref{tab:hyp-opt}. It was found that $\log l = -0.45$ was a critical point. Any setting of $\log l $ above this would converge to the case-B optimum; anything below converges to the original case-A optimum. Varying $\nu$ only seemed to change the position of this critical point but would not converge to an altogether different solution.
+However, the optimisation only finds a local minimum of the negative log-likelihood $\Lcal$. Therefore, a different intialisation of the hyperparameters can yield different results. This is illustrated in scenario B of table \ref{tab:hyp-opt}. It was found that an initial value of $\log l = -0.45$ was a critical point. Any setting of $\log l $ above this would converge to the case-B optimum; anything below converges to the original case-A optimum. Varying $\nu$ only seemed to change the position of this critical point but would not converge to an altogether different solution.
 
- 
+This alternative optimum converges to a very large value of the length scale $l=8.045$. This model expects data to vary very slowly with respect to $x$ and indeed attributes all variation within the observed range to noise. Indeed, figure \ref{fig:1b} shows that the mean varies little over the data range. Indeed, the error bars remain nearly constant and very large. This model does not seem to fit the data well just by comparing figures \ref{fig:1a} and \ref{fig:1b}. This intuition can be quantified through the marginal log-likelihood. Model B has a far smaller marginal likelihood $|\Lcal_B|=0.411, |\Lcal_A|=2.139$ and so we can conclude that this model is more improbable.
 
 
 \subsection{Periodic Covariance Function}
+
+We can instead use a periodic covariance function to model the data (as in equation \ref{eqn:covPeriodic}. We introduce a new parameter $p$ which is the period of the repetition in covariance. $l$ should no longer be thought of as a length scale but rather sets the strength of the correlation between neighbours and $v$ sets the baseline variance.
+
+\begin{equation}
+k_{PER}(x, x') = \nu^2 \exp
+\left\{
+- \frac{2 \sin ^2 \left( \pi (x-x') / p \right)}{l^2}
+\right\}
+\label{eqn:covPeriodic}
+\end{equation}
+
+We tune the hyperparameters in much the same way as before; the results are summarised in table \ref{tab:per}. All hyperparameters stay close to their initial values. Indeed, the period $p$ stays very close to 1.
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{c | c c}
+	\textbf{Parameter} & \textbf{Initial} & \textbf{Final} \\ \hline
+	$\log l$           & 0                & 0.0437         \\
+	$l$                & 1                & 1.044          \\
+	$\log p$           & 0                & -0.0012        \\
+	$p$                & 1                & 0.999          \\
+	$\log \nu$         & 0                & 0.2122         \\
+	$\nu$              & 1                & 1.24           \\
+	$\Lcal$            & 0                & -2.213        
+\end{tabular}
+\caption{Periodic covariance function hyperparameter tuning}
+\label{tab:per}
+\end{table}
+
+We can plot the predictions on figure \ref{fig:1c} which shows excellent agreement between model and data. Indeed, the error bars are uniformly small. On first inspection this appears to be a more natural fit than the squared exponential covariance function. However, we must be careful to avoid overfitting.
 
 \begin{figure}[!h]
 	\centering
@@ -103,7 +140,16 @@ However, the optimisation only finds a local minimum of the negative log-likelih
 	\label{fig:1c}
 \end{figure}
 
-\subsection{Cholesky Decomposition}
+Indeed, the marginal likelihood is slightly greater for the periodic covariance model. Nevertheless, it does not appear that the training data was generated in a periodic manner. On figure \ref{fig:1c1}, we plot a histogram of the training inputs. This appears Gaussian with zero mean and modest variance $O(1)$. Therefore, it is highly unlikely that the data was generated in a periodic manner across the range [-3, 3]. We prefer the model in part a (SE covariance) as this remains uncertain in areas of sparse data.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\figwidth]{1c1}
+	\caption{Histogram of training inputs}
+	\label{fig:1c1}
+\end{figure}
+
+\subsection{Sampling from a Gaussian Process}
 
 \begin{figure}[!h]
 	\centering
@@ -112,7 +158,65 @@ However, the optimisation only finds a local minimum of the negative log-likelih
 	\label{fig:1d}
 \end{figure}
 
-\subsection{Model Comparison}
+\subsection{2-Dimensional Input - Model Comparison}
+
+We now extend our investigation to deal with 2-dimensional input data. For this we need a new covariance function. For the simple case we choose a Squared Exponential - Automatic Relevance Determination (SE-ARD) covariance function. This is in general anisotropic and has formula given by equation \ref{eqn:covSEard}. The index $i$ iterates through every dimension in our input (total $D$ dimensions). In this example, the data is 2-dimensional ($D=2$).
+
+\begin{equation}
+k_{ARD}(\mathbf{x}, \mathbf{x}') = \nu^2 \exp\left\{- \frac{1}{2} \sum_{i=1}^{D}\frac{(x_i-x_i')^2}{l_i^2}\right\}
+\label{eqn:covSEard}
+\end{equation}
+
+We wish to compare this simple model with a more complex model. The covariance functions for the simple and additive model are given in equations \ref{eqn:cov-a} and \ref{eqn:cov-b} respectively.The vector $\theta = [\nu, l_1, l_2]$ denotes the hyperparameters of the SE-ARD covariance function.
+
+\begin{equation}
+k_a(\mathbf{x}, \mathbf{x}') = k_{ARD}(\mathbf{x}, \mathbf{x}' ; \theta^a)
+\label{eqn:cov-a}
+\end{equation}
+\begin{equation}
+k_b(\mathbf{x}, \mathbf{x}') = k_{ARD}(\mathbf{x}, \mathbf{x}' ; \theta^{b1})
++ k_{ARD}(\mathbf{x}, \mathbf{x}' ; \theta^{b2})
+\label{eqn:cov-b}
+\end{equation}
+
+\begin{table}[!h]
+	\centering
+	\subfloat[Simple model a]{
+		\begin{tabular}{c | c c}
+			\textbf{$\theta^a$} & \textbf{Initial} & \textbf{Final} \\ \hline
+			$\log l_1$         & 0                & 0.413          \\
+			$l_1$              & 1                & 1.511          \\
+			$\log l_2$         & 0                & 0.252          \\
+			$l_2$              & 1                & 1.287          \\
+			$\log \nu$         & 0                & 0.102          \\
+			$\nu$              & 1                & 1.107          
+		\end{tabular}
+	}
+	\subfloat[Component b1]{
+		\begin{tabular}{c | c c}
+			$\theta^{b1}$ & \textbf{Initial} & \textbf{Final} \\ \hline
+			$\log l_1$         & 0                & 0.413          \\
+			$l_1$              & 1                & 1.511          \\
+			$\log l_2$         & 0                & 0.252          \\
+			$l_2$              & 1                & 1.287          \\
+			$\log \nu$         & 0                & 0.102          \\
+			$\nu$              & 1                & 1.107          
+		\end{tabular}
+	}
+	\subfloat[Component b2]{
+		\begin{tabular}{c | c c}
+			$\theta^{b1}$ & \textbf{Initial} & \textbf{Final} \\ \hline
+			$\log l_1$         & 0                & 0.413          \\
+			$l_1$              & 1                & 1.511          \\
+			$\log l_2$         & 0                & 0.252          \\
+			$l_2$              & 1                & 1.287          \\
+			$\log \nu$         & 0                & 0.102          \\
+			$\nu$              & 1                & 1.107          
+		\end{tabular}
+	}
+	\caption{Parameter optimisation for 2-D data}
+	\label{tab:simple-opt}
+\end{table}
 
 \begin{figure}[!h]
 	\begin{subfigure}{0.5\linewidth}

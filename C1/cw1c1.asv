@@ -1,0 +1,3 @@
+load("cw1a.mat")
+histogram(x);
+xlabel(
