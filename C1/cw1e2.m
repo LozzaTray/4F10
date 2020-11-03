@@ -35,7 +35,11 @@ sqrt_grid = reshape(sqrt(s2), n, n);
 
 % visualize error
 hold on;
-scatter3(x(:,1), x(:,2), y, '+');
-mesh(x1, x2, mugrid);
-%mesh(x1, x2, sqrt_grid);
+%scatter3(x(:,1), x(:,2), y, '+');
+%mesh(x1, x2, mugrid);
+mesh(x1, x2, sqrt_grid);
+xlabel("x1");
+ylabel("x2");
+%zlabel("y");
+zlabel("std dev");
 hold off;
