@@ -155,23 +155,53 @@ Indeed, the noise standard deviation $\sigma$ is slightly smaller for the period
 
 \subsection{Sampling from a Gaussian Process}
 
+We can sample from an arbitrary GP at a finite array of points $\mathbf{x}$ by evaluating the covariance matrix $K$ for these points and exploiting the Cholesky Decomposition ($\text{chol}(K) = C$ s.t. $C C^T = K$). The code for this is in listing \ref{lst:gp-sampling}. We must add a small diagonal matrix to ensure that $K$ is positive definite and thus has a Cholesky decomposition.
+
+\begin{lstlisting}[frame=single, caption={GP sampling}, label={lst:gp-sampling}]
+x = linspace(-5, 5, n)';
+z = gpml_randn(seed, n, 1);
+K = feval(covfunc{:}, cov, x);
+K_pos_def = K + 1e-6 * eye(n);
+y = chol(K_pos_def)'*z;
+\end{lstlisting}
+
+We use this code to sample from a GP with composite covariance function defined as the product of a periodic covariance function and a standard Squared Exponential covariance function. The hyperparameters are set to $[\lambda, \rho, \nu]_{PER} = [0.607, 1, 1]$ for the periodic component and $[\lambda, \nu]_{SE} = [7.39, 1]$ for the SE component. We can run the code in \ref{lst:gp-sampling} for different values of the seed to yield the set of plots in figure \ref{fig:1d}.
+
 \begin{figure}[!h]
-	\centering
-	\includegraphics[width=\figwidth]{1d}
-	\caption{Trained GP with initial hyperparameter settings}
+	\begin{subfigure}{0.3\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{1d1}
+		\caption{Seed = 0.5}
+		\label{fig:1d1}
+	\end{subfigure}
+	\begin{subfigure}{0.3\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{1d2}
+		\caption{Seed = 0.7}
+		\label{fig:1d2}
+	\end{subfigure}
+	\begin{subfigure}{0.3\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{1d3}
+		\caption{Seed = 0.9}
+		\label{fig:1d3}
+	\end{subfigure}
+	\caption{Sampling function at random from a GP with composite product periodic and SE covariance}
 	\label{fig:1d}
 \end{figure}
+
+This set of characteristic functions share some key properties. The functions do appear in some way periodic with period 1. This agrees with the hyperparameter setting $\rho_{PER}=1$. The SE component has a very long length scale $\lambda_{SE}=7.39$ This means that we only see distortion of the periodic structure over long length scales; adjacent periods are very similar but those that are further apart have different form.
 
 \subsection{2-Dimensional Input - Model Comparison}
 
 We now extend our investigation to deal with 2-dimensional input data. For this we need a new covariance function. For the simple case we choose a Squared Exponential - Automatic Relevance Determination (SE-ARD) covariance function. This is in general anisotropic and has formula given by equation \ref{eqn:covSEard}. The index $i$ iterates through every dimension in our input (total $D$ dimensions). In this example, the data is 2-dimensional ($D=2$).
 
 \begin{equation}
-k_{ARD}(\mathbf{x}, \mathbf{x}') = \nu^2 \exp\left\{- \frac{1}{2} \sum_{i=1}^{D}\frac{(x_i-x_i')^2}{l_i^2}\right\}
+k_{ARD}(\mathbf{x}, \mathbf{x}') = \nu^2 \exp\left\{- \frac{1}{2} \sum_{i=1}^{D}\frac{(x_i-x_i')^2}{\lambda_i^2}\right\}
 \label{eqn:covSEard}
 \end{equation}
 
-We wish to compare this simple model with a more complex model. The covariance functions for the simple and additive model are given in equations \ref{eqn:cov-a} and \ref{eqn:cov-b} respectively.The vector $\theta = [\nu, l_1, l_2]$ denotes the hyperparameters of the SE-ARD covariance function.
+We wish to compare this simple model with a more complex model. The covariance functions for the simple and additive model are given in equations \ref{eqn:cov-a} and \ref{eqn:cov-b} respectively.The vector $\theta = [\nu, \lambda_1, \lambda_2]$ denotes the hyperparameters of the SE-ARD covariance function.
 
 \begin{equation}
 k^a(\mathbf{x}, \mathbf{x}') = k_{ARD}(\mathbf{x}, \mathbf{x}' ; \theta^a)
@@ -188,10 +218,10 @@ k^b(\mathbf{x}, \mathbf{x}') = k_{ARD}(\mathbf{x}, \mathbf{x}' ; \theta^{b1})
 	\subfloat[Simple model a]{
 		\begin{tabular}{c | c c}
 			\textbf{$\theta^a$} & \textbf{Initial} & \textbf{Final} \\ \hline
-			$\log l_1$         & 0                & 0.413          \\
-			$l_1$              & 1                & 1.511          \\
-			$\log l_2$         & 0                & 0.252          \\
-			$l_2$              & 1                & 1.287          \\
+			$\log \lambda_1$         & 0                & 0.413          \\
+			$\lambda_1$              & 1                & 1.511          \\
+			$\log \lambda_2$         & 0                & 0.252          \\
+			$\lambda_2$              & 1                & 1.287          \\
 			$\log \nu$         & 0                & 0.102          \\
 			$\nu$              & 1                & 1.107          
 		\end{tabular}
@@ -199,10 +229,10 @@ k^b(\mathbf{x}, \mathbf{x}') = k_{ARD}(\mathbf{x}, \mathbf{x}' ; \theta^{b1})
 	\subfloat[Component b1]{
 		\begin{tabular}{c | c c}
 			$\theta^{b1}$ & \textbf{Initial} & \textbf{Final} \\ \hline
-			$\log l_1$         & 0                & 0.3644         \\
-			$l_1$              & 1                & 1.440          \\
-			$\log l_2$         & 0                & 6.3200         \\
-			$l_2$              & 1                & 555.6          \\
+			$\log \lambda_1$         & 0                & 0.3644         \\
+			$\lambda_1$              & 1                & 1.440          \\
+			$\log \lambda_2$         & 0                & 6.3200         \\
+			$\lambda_2$              & 1                & 555.6          \\
 			$\log \nu$         & 0                & 0.0801         \\
 			$\nu$              & 1                & 1.083        
 		\end{tabular}
