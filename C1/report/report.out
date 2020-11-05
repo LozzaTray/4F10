@@ -1,7 +1,6 @@
-\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
-\BOOKMARK [1][-]{section.2}{Questions}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{Squared Exponential Covariance Function}{section.2}% 3
-\BOOKMARK [2][-]{subsection.2.2}{Hyperparameter Initialisation}{section.2}% 4
-\BOOKMARK [2][-]{subsection.2.3}{Periodic Covariance Function}{section.2}% 5
-\BOOKMARK [2][-]{subsection.2.4}{Sampling from a Gaussian Process}{section.2}% 6
-\BOOKMARK [2][-]{subsection.2.5}{2-Dimensional Input - Model Comparison}{section.2}% 7
+\BOOKMARK [1][-]{section.1}{Questions}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Squared Exponential Covariance Function}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Hyperparameter Initialisation}{section.1}% 3
+\BOOKMARK [2][-]{subsection.1.3}{Periodic Covariance Function}{section.1}% 4
+\BOOKMARK [2][-]{subsection.1.4}{Sampling from a Gaussian Process}{section.1}% 5
+\BOOKMARK [2][-]{subsection.1.5}{2-Dimensional Input - Model Comparison}{section.1}% 6
