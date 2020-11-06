@@ -15,6 +15,7 @@
 \usepackage{subcaption}
 \usepackage{parskip}
 \usepackage{listings}
+\usepackage{pdfpages}
 
 %package setup
 \graphicspath{{./img/}}
@@ -35,6 +36,9 @@
 
 \begin{document}
 
+\includepdf[pages={1}]{coversheet.pdf}
+
+\setcounter{page}{1}
 \maketitle
 
 \begin{abstract}
@@ -219,7 +223,7 @@ k^b(\mathbf{x}, \mathbf{x}') = k_{ARD}(\mathbf{x}, \mathbf{x}' ; \theta^{b1})
 \label{eqn:cov-b}
 \end{equation}
 
-The optimised parameters are presented in table \ref{tab:complex-opt}. We can plot the mean of the predictive surface yielded by each model on figure \ref{fig:1e}. We see that both models fit the data quite well. Nevertheless, the additive model has a much lower $\Lcal$ and so matches the training data more closely. This is to be expected as model a is a special case of model b where $\nu^{(b2)}=0$. The additional degrees of freedom introduced by the more complex, additive model mean it can fit the data more closely and thus increases the marginal likelihood.
+The optimised parameters are presented in table \ref{tab:complex-opt}. We plot the mean of the predictive surface on figure \ref{fig:1e}. Both models fit the data quite well. Nevertheless, the additive model has a much lower $\Lcal$ and so matches the training data more closely. This is to be expected as model a is a special case of model b where $\nu^{(b2)}=0$. The additional degrees of freedom introduced by the more complex, additive model mean it can fit the data more closely and thus increases the marginal likelihood.
 
 \begin{table}[!h]
 	\centering
