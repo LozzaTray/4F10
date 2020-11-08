@@ -48,3 +48,9 @@ def epranking():
     num_iters = 3
     # run message passing algorithm, returns mean and precision for each player
     mean_player_skills, precision_player_skills = eprank(G, M, num_iters)
+
+
+if __name__ == "__main__":
+    print("---------- 4F13 - CW2 ----------")
+    gibbs_sample_run()
+    epranking()
