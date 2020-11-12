@@ -4,6 +4,18 @@ from tqdm import tqdm
 
 
 def gibbs_sample(G, M, num_iters):
+    """
+    Gibbs sample player skills.
+    
+    Accepts:
+    G - Game array G[i, 0] is winner of game i G[i, 1] is loser
+    M - number of players
+    num_iters - number of Gibbs iterations
+
+    Returns:
+    skill_samples - skill_samples[i, j] is sample for skill of player i at iteration j
+    """
+
     # number of games
     N = G.shape[0]
     # Array containing mean skills of each player, set to prior mean
@@ -12,6 +24,7 @@ def gibbs_sample(G, M, num_iters):
     skill_samples = np.zeros((M, num_iters))
     # Array containing skill variance for each player, set to prior variance
     pv = 0.5 * np.ones(M)
+
     # number of iterations of Gibbs
     for i in tqdm(range(num_iters)):
         # sample performance given differences in skills and outcomes
@@ -26,13 +39,21 @@ def gibbs_sample(G, M, num_iters):
         # Jointly sample skills given performance differences
         m = np.zeros((M, 1))
         for p in range(M):
-            pass
-            # m[p] = TODO: COMPLETE THIS LINE
-        iS = np.zeros((M, M))  # Container for sum of precision matrices (likelihood terms)
+            # fill in m[p] prediction (natural param conditional)
+            wins_array = np.array(G[:, 0] == p).astype(int)
+            loss_array = np.array(G[:, 1] == p).astype(int)
+            m[p] = np.dot(t[:,0], (wins_array - loss_array))
 
+        iS = np.zeros((M, M))  # Container for sum of precision matrices (likelihood terms)
         for g in range(N):
-            pass
-            # TODO: Build the iS matrix
+            # Build the iS matrix
+            winner = G[g, 0]
+            loser = G[g, 1]
+
+            iS[winner, winner] += 1
+            iS[winner, loser] -= 1
+            iS[loser, winner] -= 1
+            iS[loser, loser] += 1
 
         # Posterior precision matrix
         iSS = iS + np.diag(1. / pv)

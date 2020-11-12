@@ -36,18 +36,22 @@ def gibbs_sample_run():
     # perform gibbs sampling, skill samples is an num_players x num_samples array
     skill_samples = gibbs_sample(G, M, num_iters)#, random_nums)
 
+    sorted_barplot(skill_samples[:,-1], W)
+
     # Code for plotting the autocorrelation function for player p
     p = 5
     autocor = np.zeros(10)
     for i in range(10):
         autocor[i]=pandas.Series.autocorr(pandas.Series(skill_samples[p,:]),lag=i)
     plt.plot(autocor)
+    plt.show()
 
 
 def epranking():
     num_iters = 3
     # run message passing algorithm, returns mean and precision for each player
     mean_player_skills, precision_player_skills = eprank(G, M, num_iters)
+    pass
 
 
 if __name__ == "__main__":
