@@ -20,3 +20,14 @@ def sorted_barplot(P, W):
     plt.ylim([-2, 109])
     plt.show()
 
+
+def sorted_rangeplot(mean, std_dev, W):
+    M = len(mean)
+    xx = np.linspace(0, M, M)
+    plt.figure(figsize=(20, 20))
+    sorted_indices = np.argsort(mean)
+    sorted_names = W[sorted_indices]
+    plt.barh(xx, std_dev[sorted_indices], left=mean[sorted_indices])
+    plt.yticks(np.linspace(0, M, M), labels=sorted_names[:, 0])
+    plt.ylim([-2, 109])
+    plt.show()
