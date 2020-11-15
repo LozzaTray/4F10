@@ -75,6 +75,29 @@ for g in range(N):
 
 \subsection{EP - Top Four Head to Head}
 
+\begin{table}[!h]
+	\subfloat[Prob. row player is more skilful]{
+		\begin{tabular}{c | c c c c}
+			$P(w_i > w_j)$ & \textbf{Djokovic} & \textbf{Federer} & \textbf{Nadal} & \textbf{Murray} \\ \hline
+			\textbf{Djokovic}      & -                 & 0.92             & 0.95           & 0.98            \\
+			\textbf{Federer}       & 0.08              & -                & 0.59           & 0.79            \\
+			\textbf{Nadal}         & 0.05              & 0.41             & -              & 0.73            \\
+			\textbf{Murray}        & 0.02              & 0.21             & 0.27           & -              
+		\end{tabular}
+	}
+	\subfloat[Prob. row player wins a head-to-head]{
+		\begin{tabular}{c | c c c c}
+			$P(t_{ij} > 0)$ & \textbf{Djokovic} & \textbf{Federer} & \textbf{Nadal} & \textbf{Murray} \\ \hline
+			\textbf{Djokovic}      & -                 & 0.64             & 0.66           & 0.71            \\
+			\textbf{Federer}       & 0.36              & -                & 0.52           & 0.58            \\
+			\textbf{Nadal}         & 0.34              & 0.48             & -              & 0.56            \\
+			\textbf{Murray}        & 0.29              & 0.42             & 0.44           & -              
+		\end{tabular}
+	}
+	\caption{Top four players comparison}
+	\label{tab:top-4}
+\end{table}
+
 
 \subsection{Gibbs - Nadal v Djokovic}
 
