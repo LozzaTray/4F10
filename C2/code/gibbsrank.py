@@ -65,6 +65,7 @@ def gibbs_sample(G, M, num_iters):
         # sample from N(mu, inv(iSS))
         w = mu + scipy.linalg.solve_triangular(iR[0], np.random.randn(M, 1), check_finite=False)
         skill_samples[:, i] = w[:, 0]
+
     return skill_samples
 
 

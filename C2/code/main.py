@@ -51,7 +51,6 @@ def epranking():
     num_iters = 3
     # run message passing algorithm, returns mean and precision for each player
     mean_player_skills, precision_player_skills = eprank(G, M, num_iters)
-    pass
 
 
 if __name__ == "__main__":
