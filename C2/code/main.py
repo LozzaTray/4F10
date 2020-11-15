@@ -11,6 +11,7 @@ from gibbsrank import gibbs_sample
 from eprank import eprank
 import pandas
 from cw2 import sorted_barplot
+from scipy.stats import norm
 
 
 # set seed for reproducibility
@@ -50,10 +51,32 @@ def gibbs_sample_run():
 def epranking():
     num_iters = 3
     # run message passing algorithm, returns mean and precision for each player
+    top_four = [15, 4, 0, 10]
     mean_player_skills, precision_player_skills = eprank(G, M, num_iters)
+    player_means = mean_player_skills[top_four]
+    player_var = np.true_divide(1, precision_player_skills[top_four])
+    
+    prob_better_player = np.zeros((4, 4))
+    prob_wins_match = np.zeros((4, 4))
+    print(W[top_four])
+    for i in range(0, 4):
+        for j in range(0, 4):
+            skill_diff = player_means[i] - player_means[j]
+            var = player_var[i] + player_var[j]
+            prob_better_player[i, j] = norm.cdf(skill_diff / np.sqrt(var))
+            prob_wins_match[i, j] = norm.cdf(skill_diff / np.sqrt(1 + var))
+    
+    
+    print("\nProb i better than j:")
+    print(prob_better_player)
+
+    print("\nProb i beats j:")
+    print(prob_wins_match)
+
+
 
 
 if __name__ == "__main__":
     print("---------- 4F13 - CW2 ----------")
-    gibbs_sample_run()
+    #gibbs_sample_run()
     epranking()
