@@ -51,6 +51,8 @@ This report outlines the results of the second coursework for 4F13.
 \section{Questions}
 \subsection{Gibbs Sampling}
 
+Gibbs sampling is used to sample from a multi-variate distribution by sequentially sampling from univariate conditionals. In the True-Skill model, we can approximate the conditional distribution with a 1-D Gaussian of a certain mean and variance - which are functions of the other variables. The modified code to compute these samples is given in listing \ref{lst:gibbs}.
+
 \begin{lstlisting}[frame=single, caption={Gibbs sampling additions}, label={lst:gibbs}, language={python}]
 m = np.zeros((M, 1))
 for p in range(M):
@@ -71,7 +73,54 @@ for g in range(N):
 	iS[loser, loser] += 1
 \end{lstlisting}
 
+We plot the sampled player skills for a few players (figure \ref{fig:skill-samples-long}). These data do appear noisy (in some sense random) but it appears that neighbouring samples are strongly correlated. Furthermore it is hard to tell how soon the Gibbs sampler transitions into a stable probability density region.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\linewidth]{skill-samples-long.png}
+	\caption{Gibbs skill samples for various players}
+	\label{fig:skill-samples-long}
+\end{figure}
+
+To investigate the burn-in time (iterations until the Gibbs is in a stationary state), we can plot the population mean and standard deviation at each Gibbs iteration - figure \ref{fig:burn-in}. The population mean gives us little information but we see that the standard deviation converges to a steady value fairly quickly (only after 10 iterations). We can therefore set the burn-in time to $b=10$ and we would discard all preceding samples. 
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\linewidth]{burn-in.png}
+	\caption{Gibbs skill samples averaged over all players at each iteration}
+	\label{fig:burn-in}
+\end{figure}
+
+However, there is an additional wrinkle, the plot in figure \ref{fig:skill-samples-long} is smoother than it should be; neighbouring samples are not independent. To test this hypothesis, we plot the auto-correlation of each player's skill samples (figure \ref{fig:auto-cor}). For samples to be approximately independent, their correlation should be close to 0. This is only true for all players for an offset of at least $k=10$. Nevertheless, we get good enough for $k=5$ - excepting one player: Djokovic.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\figwidth]{auto-cor.png}
+	\caption{Auto-correlation for Gibbs sampler for all players}
+	\label{fig:auto-cor}
+\end{figure}
+
+In summary, to run our Gibbs sampler efficiently and reliably, we only use samples after a burn-in period of $b=10$ iterations. Even then, we thin the samples such that we only keep every $t$'th ($t=5$) sample to ensure that they are approximately independent.
+
 \subsection{EP - Message Passing}
+
+
+\begin{figure}[!h]
+	\begin{subfigure}{0.5\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{ep-mean.png}
+		\caption{EP player skill mean evolution}
+		\label{fig:ep-mean}
+	\end{subfigure}
+	\begin{subfigure}{0.5\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{ep-precision.png}
+		\caption{EP player skill precision evolution}
+		\label{fig:ep-precision}
+	\end{subfigure}
+	\caption{EP player skill parameter evolution against iteration}
+	\label{fig:ep-evolution}
+\end{figure}
 
 
 \subsection{EP - Top Four Head to Head}

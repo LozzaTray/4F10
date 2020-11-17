@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7400 64-bit) (preloaded format=pdflatex 2020.5.16)  17 NOV 2020 19:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7400 64-bit) (preloaded format=pdflatex 2020.5.16)  17 NOV 2020 22:12
 entering extended mode
 **./4F13-CW2.tex
 (4F13-CW2.tex
@@ -585,54 +585,103 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: lstlang1.sty 2020/03/24 1.8d listings language file
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 54.
+nput line 56.
+<./img/skill-samples-long.png, id=69, 1062.97125pt x 443.6575pt>
+File: ./img/skill-samples-long.png Graphic file (type png)
+<use ./img/skill-samples-long.png>
+Package pdftex.def Info: ./img/skill-samples-long.png  used on input line 80.
+(pdftex.def)             Requested size: 542.02501pt x 226.22847pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<./img/burn-in.png, id=72, 1044.90375pt x 443.6575pt>
+File: ./img/burn-in.png Graphic file (type png)
+<use ./img/burn-in.png>
+Package pdftex.def Info: ./img/burn-in.png  used on input line 89.
+(pdftex.def)             Requested size: 542.02501pt x 230.14134pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.84 
+l.95 
       [1{C:/Users/ltray/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-<./img/win-ratio.png, id=108, 1679.27374pt x 1534.73375pt>
+<./img/auto-cor.png, id=109, 524.96124pt x 371.3875pt>
+File: ./img/auto-cor.png Graphic file (type png)
+<use ./img/auto-cor.png>
+Package pdftex.def Info: ./img/auto-cor.png  used on input line 98.
+(pdftex.def)             Requested size: 325.2183pt x 230.08218pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<./img/ep-mean.png, id=110, 826.08624pt x 443.6575pt>
+File: ./img/ep-mean.png Graphic file (type png)
+<use ./img/ep-mean.png>
+Package pdftex.def Info: ./img/ep-mean.png  used on input line 111.
+(pdftex.def)             Requested size: 271.0125pt x 145.54767pt.
+<./img/ep-precision.png, id=111, 811.03pt x 443.6575pt>
+File: ./img/ep-precision.png Graphic file (type png)
+<use ./img/ep-precision.png>
+Package pdftex.def Info: ./img/ep-precision.png  used on input line 117.
+(pdftex.def)             Requested size: 271.0125pt x 148.25554pt.
+
+Overfull \hbox (2.2222pt too wide) in paragraph at lines 109--121
+[]$[]$ $[]$ 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[2 <./img/skill-samples-long.png> <./img/burn-in.png>]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[3 <./img/auto-cor.png> <./img/ep-mean.png> <./img/ep-precision.png>]
+<./img/win-ratio.png, id=139, 1679.27374pt x 1534.73375pt>
 File: ./img/win-ratio.png Graphic file (type png)
 <use ./img/win-ratio.png>
-Package pdftex.def Info: ./img/win-ratio.png  used on input line 136.
+Package pdftex.def Info: ./img/win-ratio.png  used on input line 185.
 (pdftex.def)             Requested size: 542.02501pt x 495.36353pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./img/gibbs-ranking.png, id=110, 1679.27374pt x 1534.73375pt>
+<./img/gibbs-ranking.png, id=140, 1679.27374pt x 1534.73375pt>
 File: ./img/gibbs-ranking.png Graphic file (type png)
 <use ./img/gibbs-ranking.png>
-Package pdftex.def Info: ./img/gibbs-ranking.png  used on input line 143.
+Package pdftex.def Info: ./img/gibbs-ranking.png  used on input line 192.
 (pdftex.def)             Requested size: 542.02501pt x 495.36353pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./img/ep-ranking.png, id=111, 1679.27374pt x 1534.73375pt>
+<./img/ep-ranking.png, id=141, 1679.27374pt x 1534.73375pt>
 File: ./img/ep-ranking.png Graphic file (type png)
 <use ./img/ep-ranking.png>
-Package pdftex.def Info: ./img/ep-ranking.png  used on input line 150.
+Package pdftex.def Info: ./img/ep-ranking.png  used on input line 199.
 (pdftex.def)             Requested size: 542.02501pt x 495.36353pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 157.
-[2] [3 <./img/win-ratio.png>] [4 <./img/gibbs-ranking.png>] [5 <./img/ep-rankin
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 206.
+[4] [5 <./img/win-ratio.png>] [6 <./img/gibbs-ranking.png>] [7 <./img/ep-rankin
 g.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 157.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 206.
  (4F13-CW2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 157.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 157.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 206.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 206.
 Package rerunfilecheck Info: File `4F13-CW2.out' has not changed.
 (rerunfilecheck)             Checksum: 0EA500494A3AF2F39D5CB943F1FBE6A3;415.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 157.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 206.
  ) 
 Here is how much of TeX's memory you used:
- 12391 strings out of 480930
- 183813 string characters out of 2909547
- 653376 words of memory out of 3000000
- 28003 multiletter control sequences out of 15000+200000
+ 12437 strings out of 480930
+ 184710 string characters out of 2909547
+ 655271 words of memory out of 3000000
+ 28038 multiletter control sequences out of 15000+200000
  541489 words of font info for 59 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,18n,96p,934b,1322s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -648,9 +697,9 @@ amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
 cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pf
 b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on 4F13-CW2.pdf (6 pages, 803450 bytes).
+Output written on 4F13-CW2.pdf (8 pages, 1071848 bytes).
 PDF statistics:
- 190 PDF objects out of 1000 (max. 8388607)
- 37 named destinations out of 1000 (max. 500000)
- 84 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 220 PDF objects out of 1000 (max. 8388607)
+ 43 named destinations out of 1000 (max. 500000)
+ 109 words of extra memory for PDF output out of 10000 (max. 10000000)
 
