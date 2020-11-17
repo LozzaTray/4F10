@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7400 64-bit) (preloaded format=pdflatex 2020.5.16)  15 NOV 2020 18:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7400 64-bit) (preloaded format=pdflatex 2020.5.16)  17 NOV 2020 19:38
 entering extended mode
 **./4F13-CW2.tex
 (4F13-CW2.tex
@@ -429,22 +429,22 @@ File: l3backend-pdfmode.def 2020-03-12 L3 backend support: PDF mode
 (4F13-CW2.aux)
 \openout1 = `4F13-CW2.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -499,7 +499,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
 )
 \AtBeginShipoutBox=\box55
-Package hyperref Info: Link coloring OFF on input line 37.
+Package hyperref Info: Link coloring OFF on input line 38.
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/hyperref\nameref.sty"
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
@@ -512,9 +512,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count294
 )
-LaTeX Info: Redefining \ref on input line 37.
-LaTeX Info: Redefining \pageref on input line 37.
-LaTeX Info: Redefining \nameref on input line 37.
+LaTeX Info: Redefining \ref on input line 38.
+LaTeX Info: Redefining \pageref on input line 38.
+LaTeX Info: Redefining \nameref on input line 38.
 
 (4F13-CW2.out) (4F13-CW2.out)
 \@outlinefile=\write3
@@ -536,42 +536,42 @@ Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 <coversheet-CW2.pdf, id=27, 597.55246pt x 846.16125pt>
 File: coversheet-CW2.pdf Graphic file (type pdf)
 <use coversheet-CW2.pdf>
-Package pdftex.def Info: coversheet-CW2.pdf  used on input line 39.
+Package pdftex.def Info: coversheet-CW2.pdf  used on input line 40.
 (pdftex.def)             Requested size: 597.551pt x 846.1592pt.
 File: coversheet-CW2.pdf Graphic file (type pdf)
 <use coversheet-CW2.pdf>
-Package pdftex.def Info: coversheet-CW2.pdf  used on input line 39.
+Package pdftex.def Info: coversheet-CW2.pdf  used on input line 40.
 (pdftex.def)             Requested size: 597.551pt x 846.1592pt.
 <coversheet-CW2.pdf, id=30, page=1, 597.55246pt x 846.16125pt>
 File: coversheet-CW2.pdf Graphic file (type pdf)
 <use coversheet-CW2.pdf, page 1>
-Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 39.
+Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 40.
 (pdftex.def)             Requested size: 597.551pt x 846.1592pt.
 File: coversheet-CW2.pdf Graphic file (type pdf)
 <use coversheet-CW2.pdf, page 1>
-Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 39.
+Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 40.
 (pdftex.def)             Requested size: 561.4988pt x 795.10765pt.
 File: coversheet-CW2.pdf Graphic file (type pdf)
 <use coversheet-CW2.pdf, page 1>
-Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 39.
+Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 40.
 (pdftex.def)             Requested size: 561.4988pt x 795.10765pt.
 File: coversheet-CW2.pdf Graphic file (type pdf)
 <use coversheet-CW2.pdf, page 1>
-Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 39.
+Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 40.
 (pdftex.def)             Requested size: 561.4988pt x 795.10765pt.
 File: coversheet-CW2.pdf Graphic file (type pdf)
 <use coversheet-CW2.pdf, page 1>
-Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 39.
+Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 40.
 (pdftex.def)             Requested size: 561.4988pt x 795.10765pt.
  [1
 
  <./coversheet-CW2.pdf>]
-LaTeX Font Info:    Trying to load font information for U+msa on input line 43.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 44.
 
  ("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 43.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 44.
 
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
@@ -585,32 +585,54 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: lstlang1.sty 2020/03/24 1.8d listings language file
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 53.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 109.
+nput line 54.
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.109 \end{document}
-                     [1{C:/Users/ltray/AppData/Local/MiKTeX/2.9/pdftex/config/p
-dftex.map}] [2]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 109.
+l.84 
+      [1{C:/Users/ltray/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+<./img/win-ratio.png, id=108, 1679.27374pt x 1534.73375pt>
+File: ./img/win-ratio.png Graphic file (type png)
+<use ./img/win-ratio.png>
+Package pdftex.def Info: ./img/win-ratio.png  used on input line 136.
+(pdftex.def)             Requested size: 542.02501pt x 495.36353pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<./img/gibbs-ranking.png, id=110, 1679.27374pt x 1534.73375pt>
+File: ./img/gibbs-ranking.png Graphic file (type png)
+<use ./img/gibbs-ranking.png>
+Package pdftex.def Info: ./img/gibbs-ranking.png  used on input line 143.
+(pdftex.def)             Requested size: 542.02501pt x 495.36353pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<./img/ep-ranking.png, id=111, 1679.27374pt x 1534.73375pt>
+File: ./img/ep-ranking.png Graphic file (type png)
+<use ./img/ep-ranking.png>
+Package pdftex.def Info: ./img/ep-ranking.png  used on input line 150.
+(pdftex.def)             Requested size: 542.02501pt x 495.36353pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 157.
+[2] [3 <./img/win-ratio.png>] [4 <./img/gibbs-ranking.png>] [5 <./img/ep-rankin
+g.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 157.
  (4F13-CW2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 109.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 109.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 157.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 157.
 Package rerunfilecheck Info: File `4F13-CW2.out' has not changed.
 (rerunfilecheck)             Checksum: 0EA500494A3AF2F39D5CB943F1FBE6A3;415.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 109.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 157.
  ) 
 Here is how much of TeX's memory you used:
- 12356 strings out of 480930
- 183219 string characters out of 2909547
- 655050 words of memory out of 3000000
- 27981 multiletter control sequences out of 15000+200000
+ 12391 strings out of 480930
+ 183813 string characters out of 2909547
+ 653376 words of memory out of 3000000
+ 28003 multiletter control sequences out of 15000+200000
  541489 words of font info for 59 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,18n,96p,934b,1322s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -623,11 +645,12 @@ TeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9/f
 onts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
 1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/
 amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmr9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.
-pfb>
-Output written on 4F13-CW2.pdf (3 pages, 420238 bytes).
+cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pf
+b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Pr
+ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on 4F13-CW2.pdf (6 pages, 803450 bytes).
 PDF statistics:
- 148 PDF objects out of 1000 (max. 8388607)
- 29 named destinations out of 1000 (max. 500000)
- 69 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 190 PDF objects out of 1000 (max. 8388607)
+ 37 named destinations out of 1000 (max. 500000)
+ 84 words of extra memory for PDF output out of 10000 (max. 10000000)
 

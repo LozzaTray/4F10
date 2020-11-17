@@ -2,5 +2,5 @@
 \contentsline {subsection}{\numberline {1.a}Gibbs Sampling}{1}{subsection.1.1}%
 \contentsline {subsection}{\numberline {1.b}EP - Message Passing}{1}{subsection.1.2}%
 \contentsline {subsection}{\numberline {1.c}EP - Top Four Head to Head}{1}{subsection.1.3}%
-\contentsline {subsection}{\numberline {1.d}Gibbs - Nadal v Djokovic}{1}{subsection.1.4}%
-\contentsline {subsection}{\numberline {1.e}Method Comparison: Win ratio, Gibbs and EP}{1}{subsection.1.5}%
+\contentsline {subsection}{\numberline {1.d}Gibbs - Nadal v Djokovic}{2}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.e}Method Comparison: Win ratio, Gibbs and EP}{2}{subsection.1.5}%

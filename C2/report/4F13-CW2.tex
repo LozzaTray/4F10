@@ -29,6 +29,7 @@
 \newcommand{\Ncal}{\mathcal{N}}
 \newcommand{\cmplx}{\mathbb{C}}
 \newcommand{\Lcal}{\mathcal{L}}
+\newcommand{\indep}{\perp \!\!\! \perp}
 \newcommand{\figwidth}{0.6\linewidth}
 
 %section numbering
@@ -75,10 +76,25 @@ for g in range(N):
 
 \subsection{EP - Top Four Head to Head}
 
+Suppose that a player $i$ goes up against $j$. In the True-Skill model, we denote their skill by $w_i \sim \Ncal(m_i, \sigma_i^2)$ and $w_j \sim \Ncal(m_j, \sigma_j^2)$ respectively. The mean and variance parameters are estimated through message passing (the variance is just the inverse of the precision). 
+
+The performance difference $s_{ij} = w_i - w_j$ is corrupted by Gaussian noise of unit variance $t_{ij} = s_{ij} + n$ to account for performance inconsistency ($n \sim \Ncal(0, 1)$). The match result is then given by the sign of $t_{ij}$ such that $t_{ij} > 0 \Rightarrow i \text{ wins}$ and j wins otherwise.
+
+Having run message-passing, we wish to compute the probability that $i$ is more skilful than $j$: $P(s_{ij} > 0)$. This is different from the probability that $i$ beats $j$ in a head-to-head: $P(t_{ij} > 0)$. These probabilities are easy to compute by noting that $w_i \indep w_j \indep n \indep w_i$, so means and variances combine additively:
+
+\begin{align}
+		s_{ij} = w_i - w_j &\sim \Ncal(\Delta m_{ij} = m_i - m_j, \sigma_{ij}^2 = \sigma_i^2 + \sigma_j^2)
+		\label{eqn:s-ij} \\	
+		t_{ij} = s_{ij} + n &\sim \Ncal(\Delta m_{ij} = m_i - m_j, \bar{\sigma}_{ij}^2 = \sigma_i^2 + \sigma_j^2 + 1)
+		\label{eqn:t-ij}
+\end{align}
+
+For any Gaussian r.v. $X \sim \Ncal(\mu, \sigma^2)$, $P(X > 0) = \Phi(\mu / \sigma)$ - where $\Phi(\cdot)$ is the standard Gaussian c.d.f. Applying this result to equations \ref{eqn:s-ij} and \ref{eqn:t-ij} for the top four ranked players, we obtain table \ref{tab:top-4}.
+
 \begin{table}[!h]
 	\subfloat[Prob. row player is more skilful]{
 		\begin{tabular}{c | c c c c}
-			$P(w_i > w_j)$ & \textbf{Djokovic} & \textbf{Federer} & \textbf{Nadal} & \textbf{Murray} \\ \hline
+			$P(s_{ij} > 0)$ & \textbf{Djokovic} & \textbf{Federer} & \textbf{Nadal} & \textbf{Murray} \\ \hline
 			\textbf{Djokovic}      & -                 & 0.92             & 0.95           & 0.98            \\
 			\textbf{Federer}       & 0.08              & -                & 0.59           & 0.79            \\
 			\textbf{Nadal}         & 0.05              & 0.41             & -              & 0.73            \\
@@ -98,12 +114,44 @@ for g in range(N):
 	\label{tab:top-4}
 \end{table}
 
+We clearly see that the probability of player $i$ being more skilful than $j$ is always more extreme (further from 0.5) than the probability of winning a head-to-head. This makes sense mathematically as the variance $V[t_{ij}] > V[s_{ij}]$. It also makes sense intuitively because an individual match is subject to performance variation. If I were to play a single point against Federer, I might win. However, as the number of points increases the chance of winning the majority falls to (in my case) 0. This is the difference between being a better player and just getting lucky.
+
+If Djokovic played an infinite number of matches against Murray, a priori we can be 98\% confident that he will win the majority. However, we would expect Djokovic to only win 71\% of these matches - not 98\%.
 
 \subsection{Gibbs - Nadal v Djokovic}
 
 
 \subsection{Method Comparison: Win ratio, Gibbs and EP}
 
-\textbf{Words}: 987
+We go about ranking players using different methods: basic win ratio model; Gibbs sampling for True-Skill model; and EP estimates for True-Skill.
+
+The win ratio model assumes that each player has a fixed probability of winning their match irrespective of their opponent. If a player has played $n$ and won $k$ of them we classify their win percentage $p \sim \Ncal(k/n, k(n-k)/n^2)$ - this applies standard results for combining $n$ independent Bernoulli r.v.'s. We plot the mean and standard deviation of $p$ on figure \ref{fig:win-ratio-ranking}.
+
+With Gibbs sampling, we sample the player skill from conditional distributions and update the sample for each player at every iteration. We can restrict the samples to those produced after the burn-in period $b=20$ and thin further such that every $t$'th sample is kept $t=5$. This gives us a set of independent samples for the skill of each player and we can calculate the mean and variance of this set empirically (plotted on figure \ref{fig:gibbs-ranking}).
+
+For Expectation Propagation, we run the Message Passing algorithm for 3 iterations as that is enough to achieve convergence. This algorithm returns the expected means and precisions (inverse variance) for the skill of each player and so we can plot these directly (figure \ref{fig:ep-ranking})
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\linewidth]{win-ratio.png}
+	\caption{Player rankings by win ratio}
+	\label{fig:win-ratio-ranking}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\linewidth]{gibbs-ranking.png}
+	\caption{Players rankings by mean of Gibbs skill samples}
+	\label{fig:gibbs-ranking}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\linewidth]{ep-ranking.png}
+	\caption{Player rankings by mean of EP-estimated skills}
+	\label{fig:ep-ranking}
+\end{figure}
+
+\textbf{Words}: XX
 
 \end{document}
