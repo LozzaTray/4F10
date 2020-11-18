@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7400 64-bit) (preloaded format=pdflatex 2020.5.16)  18 NOV 2020 15:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7400 64-bit) (preloaded format=pdflatex 2020.5.16)  18 NOV 2020 19:33
 entering extended mode
 **./4F13-CW2.tex
 (4F13-CW2.tex
@@ -421,6 +421,13 @@ File: pppdftex.def 2020/01/28 v0.5q Pdfpages driver for pdfTeX (AM)
 \c@AM@survey=\count286
 \AM@templatesizebox=\box52
 )
+("C:\Program Files\MiKTeX 2.9\tex/latex/bbm\bbm.sty"
+Package: bbm 1999/03/15 V 1.2 provides fonts for set symbols - TH
+LaTeX Font Info:    Overwriting math alphabet `\mathbbm' in version `bold'
+(Font)                  U/bbm/m/n --> U/bbm/bx/n on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathbbmss' in version `bold'
+(Font)                  U/bbmss/m/n --> U/bbmss/bx/n on input line 35.
+)
 ("C:\Program Files\MiKTeX 2.9\tex/latex/l3backend\l3backend-pdfmode.def"
 File: l3backend-pdfmode.def 2020-03-12 L3 backend support: PDF mode
 \l__kernel_color_stack_int=\count287
@@ -429,22 +436,22 @@ File: l3backend-pdfmode.def 2020-03-12 L3 backend support: PDF mode
 (4F13-CW2.aux)
 \openout1 = `4F13-CW2.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -499,7 +506,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
 )
 \AtBeginShipoutBox=\box55
-Package hyperref Info: Link coloring OFF on input line 38.
+Package hyperref Info: Link coloring OFF on input line 39.
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/hyperref\nameref.sty"
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
@@ -512,9 +519,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count294
 )
-LaTeX Info: Redefining \ref on input line 38.
-LaTeX Info: Redefining \pageref on input line 38.
-LaTeX Info: Redefining \nameref on input line 38.
+LaTeX Info: Redefining \ref on input line 39.
+LaTeX Info: Redefining \pageref on input line 39.
+LaTeX Info: Redefining \nameref on input line 39.
 
 (4F13-CW2.out) (4F13-CW2.out)
 \@outlinefile=\write3
@@ -536,42 +543,42 @@ Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 <coversheet-CW2.pdf, id=27, 597.55246pt x 846.16125pt>
 File: coversheet-CW2.pdf Graphic file (type pdf)
 <use coversheet-CW2.pdf>
-Package pdftex.def Info: coversheet-CW2.pdf  used on input line 40.
+Package pdftex.def Info: coversheet-CW2.pdf  used on input line 41.
 (pdftex.def)             Requested size: 597.551pt x 846.1592pt.
 File: coversheet-CW2.pdf Graphic file (type pdf)
 <use coversheet-CW2.pdf>
-Package pdftex.def Info: coversheet-CW2.pdf  used on input line 40.
+Package pdftex.def Info: coversheet-CW2.pdf  used on input line 41.
 (pdftex.def)             Requested size: 597.551pt x 846.1592pt.
 <coversheet-CW2.pdf, id=30, page=1, 597.55246pt x 846.16125pt>
 File: coversheet-CW2.pdf Graphic file (type pdf)
 <use coversheet-CW2.pdf, page 1>
-Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 40.
+Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 41.
 (pdftex.def)             Requested size: 597.551pt x 846.1592pt.
 File: coversheet-CW2.pdf Graphic file (type pdf)
 <use coversheet-CW2.pdf, page 1>
-Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 40.
+Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 41.
 (pdftex.def)             Requested size: 561.4988pt x 795.10765pt.
 File: coversheet-CW2.pdf Graphic file (type pdf)
 <use coversheet-CW2.pdf, page 1>
-Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 40.
+Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 41.
 (pdftex.def)             Requested size: 561.4988pt x 795.10765pt.
 File: coversheet-CW2.pdf Graphic file (type pdf)
 <use coversheet-CW2.pdf, page 1>
-Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 40.
+Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 41.
 (pdftex.def)             Requested size: 561.4988pt x 795.10765pt.
 File: coversheet-CW2.pdf Graphic file (type pdf)
 <use coversheet-CW2.pdf, page 1>
-Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 40.
+Package pdftex.def Info: coversheet-CW2.pdf , page1 used on input line 41.
 (pdftex.def)             Requested size: 561.4988pt x 795.10765pt.
  [1
 
  <./coversheet-CW2.pdf>]
-LaTeX Font Info:    Trying to load font information for U+msa on input line 44.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 45.
 
  ("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 44.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 45.
 
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
@@ -585,12 +592,12 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: lstlang1.sty 2020/03/24 1.8d listings language file
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 56.
+nput line 57.
 <./img/skill-samples-long.png, id=69, 1062.97125pt x 443.6575pt>
 File: ./img/skill-samples-long.png Graphic file (type png)
 <use ./img/skill-samples-long.png>
-Package pdftex.def Info: ./img/skill-samples-long.png  used on input line 80.
-(pdftex.def)             Requested size: 542.02501pt x 226.22847pt.
+Package pdftex.def Info: ./img/skill-samples-long.png  used on input line 70.
+(pdftex.def)             Requested size: 433.62166pt x 180.98683pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -598,8 +605,16 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 <./img/burn-in.png, id=72, 1044.90375pt x 443.6575pt>
 File: ./img/burn-in.png Graphic file (type png)
 <use ./img/burn-in.png>
-Package pdftex.def Info: ./img/burn-in.png  used on input line 89.
-(pdftex.def)             Requested size: 542.02501pt x 230.14134pt.
+Package pdftex.def Info: ./img/burn-in.png  used on input line 79.
+(pdftex.def)             Requested size: 433.62166pt x 184.11443pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<./img/auto-cor.png, id=75, 524.96124pt x 371.3875pt>
+File: ./img/auto-cor.png Graphic file (type png)
+<use ./img/auto-cor.png>
+Package pdftex.def Info: ./img/auto-cor.png  used on input line 88.
+(pdftex.def)             Requested size: 325.2183pt x 230.08218pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -607,124 +622,139 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.95 
-      [1{C:/Users/ltray/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-<./img/auto-cor.png, id=109, 524.96124pt x 371.3875pt>
-File: ./img/auto-cor.png Graphic file (type png)
-<use ./img/auto-cor.png>
-Package pdftex.def Info: ./img/auto-cor.png  used on input line 98.
-(pdftex.def)             Requested size: 325.2183pt x 230.08218pt.
+l.95 \clearpage
+                [1{C:/Users/ltray/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex
+.map}]
 
+LaTeX Warning: Text page 2 contains only floats.
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<./img/ep-mean.png, id=110, 826.08624pt x 443.6575pt>
+[2 <./img/skill-samples-long.png> <./img/burn-in.png> <./img/auto-cor.png>]
+<./img/ep-mean.png, id=108, 826.08624pt x 443.6575pt>
 File: ./img/ep-mean.png Graphic file (type png)
 <use ./img/ep-mean.png>
-Package pdftex.def Info: ./img/ep-mean.png  used on input line 111.
+Package pdftex.def Info: ./img/ep-mean.png  used on input line 107.
 (pdftex.def)             Requested size: 271.0125pt x 145.54767pt.
-<./img/ep-precision.png, id=111, 811.03pt x 443.6575pt>
+<./img/ep-precision.png, id=109, 811.03pt x 443.6575pt>
 File: ./img/ep-precision.png Graphic file (type png)
 <use ./img/ep-precision.png>
-Package pdftex.def Info: ./img/ep-precision.png  used on input line 117.
+Package pdftex.def Info: ./img/ep-precision.png  used on input line 113.
 (pdftex.def)             Requested size: 271.0125pt x 148.25554pt.
 
-Overfull \hbox (2.2222pt too wide) in paragraph at lines 109--121
+Overfull \hbox (2.2222pt too wide) in paragraph at lines 105--117
 []$[]$ $[]$ 
  []
 
+[3
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+ <./img/ep-mean.png> <./img/ep-precision.png>] [4
 
-[2 <./img/skill-samples-long.png> <./img/burn-in.png>]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[3 <./img/auto-cor.png> <./img/ep-mean.png> <./img/ep-precision.png>]
-<./img/djokovic-nadal-marginal.png, id=136, 515.9275pt x 371.3875pt>
+]
+<./img/djokovic-nadal-marginal.png, id=131, 515.9275pt x 371.3875pt>
 File: ./img/djokovic-nadal-marginal.png Graphic file (type png)
 <use ./img/djokovic-nadal-marginal.png>
 Package pdftex.def Info: ./img/djokovic-nadal-marginal.png  used on input line 
-174.
+183.
 (pdftex.def)             Requested size: 325.2183pt x 234.11136pt.
-<./img/djokovic-nadal-joint.png, id=137, 449.68pt x 443.6575pt>
+<./img/djokovic-nadal-joint.png, id=133, 449.68pt x 443.6575pt>
 File: ./img/djokovic-nadal-joint.png Graphic file (type png)
 <use ./img/djokovic-nadal-joint.png>
-Package pdftex.def Info: ./img/djokovic-nadal-joint.png  used on input line 181
+Package pdftex.def Info: ./img/djokovic-nadal-joint.png  used on input line 192
 .
 (pdftex.def)             Requested size: 325.2183pt x 320.87508pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./img/djokovic-nadal-diff.png, id=138, 515.9275pt x 371.3875pt>
+<./img/djokovic-nadal-diff.png, id=135, 515.9275pt x 371.3875pt>
 File: ./img/djokovic-nadal-diff.png Graphic file (type png)
 <use ./img/djokovic-nadal-diff.png>
-Package pdftex.def Info: ./img/djokovic-nadal-diff.png  used on input line 188.
+Package pdftex.def Info: ./img/djokovic-nadal-diff.png  used on input line 201.
 
 (pdftex.def)             Requested size: 325.2183pt x 234.11136pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./img/win-ratio.png, id=142, 1679.27374pt x 1534.73375pt>
+LaTeX Font Info:    Trying to load font information for U+bbm on input line 211
+.
+("C:\Program Files\MiKTeX 2.9\tex/latex/bbm\ubbm.fd"
+File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
+)
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[5
+
+ <./img/djokovic-nadal-marginal.png>] [6 <./img/djokovic-nadal-joint.png> <./im
+g/djokovic-nadal-diff.png>]
+<./img/ep-skills-by-gibbs.png, id=169, 1679.27374pt x 1534.73375pt>
+File: ./img/ep-skills-by-gibbs.png Graphic file (type png)
+<use ./img/ep-skills-by-gibbs.png>
+Package pdftex.def Info: ./img/ep-skills-by-gibbs.png  used on input line 244.
+(pdftex.def)             Requested size: 542.02501pt x 495.36353pt.
+<./img/win-ratio.png, id=170, 1679.27374pt x 1534.73375pt>
 File: ./img/win-ratio.png Graphic file (type png)
 <use ./img/win-ratio.png>
-Package pdftex.def Info: ./img/win-ratio.png  used on input line 207.
+Package pdftex.def Info: ./img/win-ratio.png  used on input line 251.
 (pdftex.def)             Requested size: 542.02501pt x 495.36353pt.
+
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./img/gibbs-ranking.png, id=143, 1679.27374pt x 1534.73375pt>
+<./img/gibbs-ranking.png, id=171, 1679.27374pt x 1534.73375pt>
 File: ./img/gibbs-ranking.png Graphic file (type png)
 <use ./img/gibbs-ranking.png>
-Package pdftex.def Info: ./img/gibbs-ranking.png  used on input line 214.
+Package pdftex.def Info: ./img/gibbs-ranking.png  used on input line 258.
 (pdftex.def)             Requested size: 542.02501pt x 495.36353pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./img/ep-ranking.png, id=144, 1679.27374pt x 1534.73375pt>
+<./img/ep-ranking.png, id=172, 1679.27374pt x 1534.73375pt>
 File: ./img/ep-ranking.png Graphic file (type png)
 <use ./img/ep-ranking.png>
-Package pdftex.def Info: ./img/ep-ranking.png  used on input line 221.
+Package pdftex.def Info: ./img/ep-ranking.png  used on input line 265.
 (pdftex.def)             Requested size: 542.02501pt x 495.36353pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 228.
-[4 <./img/djokovic-nadal-marginal.png>] [5 <./img/djokovic-nadal-joint.png> <./
-img/djokovic-nadal-diff.png>] [6 <./img/win-ratio.png>] [7 <./img/gibbs-ranking
-.png>] [8 <./img/ep-ranking.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 228.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 272.
+[7
+
+ <./img/ep-skills-by-gibbs.png>] [8 <./img/win-ratio.png>] [9 <./img/gibbs-rank
+ing.png>] [10 <./img/ep-ranking.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 272.
  (4F13-CW2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 228.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 228.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 272.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 272.
 Package rerunfilecheck Info: File `4F13-CW2.out' has not changed.
-(rerunfilecheck)             Checksum: 0EA500494A3AF2F39D5CB943F1FBE6A3;415.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 228.
+(rerunfilecheck)             Checksum: A74FC7E4D66DBB3F53B31382AC9163F2;412.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 272.
  ) 
 Here is how much of TeX's memory you used:
- 12462 strings out of 480930
- 185408 string characters out of 2909547
- 655557 words of memory out of 3000000
- 28056 multiletter control sequences out of 15000+200000
- 541489 words of font info for 59 fonts, out of 3000000 for 9000
+ 12507 strings out of 480930
+ 186452 string characters out of 2909547
+ 648197 words of memory out of 3000000
+ 28091 multiletter control sequences out of 15000+200000
+ 541884 words of font info for 62 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,18n,96p,934b,1322s stack positions out of 5000i,500n,10000p,200000b,50000s
- <C:\Users\ltray\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\
-tcrm1000.pk><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.
-pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/
-Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Program F
-iles/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiK
-TeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9/f
-onts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
-1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/
-amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pf
-b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Pr
-ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on 4F13-CW2.pdf (9 pages, 1135569 bytes).
+ <C:\Users\ltray\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/public/bbm/dpi600\b
+bm10.pk> <C:\Users\ltray\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/d
+pi600\tcrm1000.pk><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
+mbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pf
+b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Pro
+gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Fil
+es/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/
+public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
+sfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
+/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb>
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Prog
+ram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files
+/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on 4F13-CW2.pdf (11 pages, 1275035 bytes).
 PDF statistics:
- 233 PDF objects out of 1000 (max. 8388607)
- 47 named destinations out of 1000 (max. 500000)
- 124 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 262 PDF objects out of 1000 (max. 8388607)
+ 46 named destinations out of 1000 (max. 500000)
+ 129 words of extra memory for PDF output out of 10000 (max. 10000000)
 
