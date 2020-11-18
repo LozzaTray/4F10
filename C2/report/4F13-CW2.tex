@@ -100,7 +100,7 @@ However, there is an additional wrinkle, the plot in figure \ref{fig:skill-sampl
 	\label{fig:auto-cor}
 \end{figure}
 
-In summary, to run our Gibbs sampler efficiently and reliably, we only use samples after a burn-in period of $b=10$ iterations. Even then, we thin the samples such that we only keep every $t$'th ($t=5$) sample to ensure that they are approximately independent.
+In summary, to run our Gibbs sampler efficiently and reliably, we only use samples after a burn-in period of $b=10$ iterations. Even then, we thin the samples such that we only keep every $t$'th ($t=5$) sample to ensure that they are approximately independent. We use these values $b=10$ and $t=5$ for the rest of the report - such that for 1100 samples we only keep 218 of them.
 
 \subsection{EP - Message Passing}
 
@@ -159,7 +159,7 @@ For any Gaussian r.v. $X \sim \Ncal(\mu, \sigma^2)$, $P(X > 0) = \Phi(\mu / \sig
 			\textbf{Murray}        & 0.28              & 0.41             & 0.43           & -              
 		\end{tabular}
 	}
-	\caption{Top four players comparison}
+	\caption{Top four players comparison based on EP (5 iterations)}
 	\label{tab:top-4}
 \end{table}
 
@@ -172,8 +172,22 @@ If Djokovic played an infinite number of matches against Murray, a priori we can
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\figwidth]{djokovic-nadal-marginal.png}
-	\caption{Gibbs samples marginal comparison - marginal approximated by Gaussian using least squared error}
+	\caption{Gibbs samples marginal comparison - Djokovic v Nadal}
 	\label{fig:djok-nadal-marginal}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\figwidth]{djokovic-nadal-joint.png}
+	\caption{Gibbs samples joint comparison - Djokovic v Nadal}
+	\label{fig:djok-nadal-joint}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\figwidth]{djokovic-nadal-diff.png}
+	\caption{Gibbs samples direct difference comparison - Djokovic v Nadal}
+	\label{fig:djok-nadal-diff}
 \end{figure}
 
 
