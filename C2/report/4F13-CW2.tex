@@ -144,19 +144,19 @@ For any Gaussian r.v. $X \sim \Ncal(\mu, \sigma^2)$, $P(X > 0) = \Phi(\mu / \sig
 	\subfloat[Prob. row player is more skilful]{
 		\begin{tabular}{c | c c c c}
 			$P(s_{ij} > 0)$ & \textbf{Djokovic} & \textbf{Federer} & \textbf{Nadal} & \textbf{Murray} \\ \hline
-			\textbf{Djokovic}      & -                 & 0.92             & 0.95           & 0.98            \\
-			\textbf{Federer}       & 0.08              & -                & 0.59           & 0.79            \\
-			\textbf{Nadal}         & 0.05              & 0.41             & -              & 0.73            \\
-			\textbf{Murray}        & 0.02              & 0.21             & 0.27           & -              
+			\textbf{Djokovic}      & -                 & 0.91             & 0.94           & 0.99            \\
+			\textbf{Federer}       & 0.09              & -                & 0.58           & 0.81            \\
+			\textbf{Nadal}         & 0.06              & 0.42             & -              & 0.76            \\
+			\textbf{Murray}        & 0.01              & 0.19             & 0.24           & -              
 		\end{tabular}
 	}
 	\subfloat[Prob. row player wins a head-to-head]{
 		\begin{tabular}{c | c c c c}
 			$P(t_{ij} > 0)$ & \textbf{Djokovic} & \textbf{Federer} & \textbf{Nadal} & \textbf{Murray} \\ \hline
-			\textbf{Djokovic}      & -                 & 0.64             & 0.66           & 0.71            \\
-			\textbf{Federer}       & 0.36              & -                & 0.52           & 0.58            \\
-			\textbf{Nadal}         & 0.34              & 0.48             & -              & 0.56            \\
-			\textbf{Murray}        & 0.29              & 0.42             & 0.44           & -              
+			\textbf{Djokovic}      & -                 & 0.64             & 0.66           & 0.72            \\
+			\textbf{Federer}       & 0.36              & -                & 0.52           & 0.59            \\
+			\textbf{Nadal}         & 0.34              & 0.48             & -              & 0.57            \\
+			\textbf{Murray}        & 0.28              & 0.41             & 0.43           & -              
 		\end{tabular}
 	}
 	\caption{Top four players comparison}
@@ -165,7 +165,7 @@ For any Gaussian r.v. $X \sim \Ncal(\mu, \sigma^2)$, $P(X > 0) = \Phi(\mu / \sig
 
 We clearly see that the probability of player $i$ being more skilful than $j$ is always more extreme (further from 0.5) than the probability of winning a head-to-head. This makes sense mathematically as the variance $V[t_{ij}] > V[s_{ij}]$. It also makes sense intuitively because an individual match is subject to performance variation. If I were to play a single point against Federer, I might win. However, as the number of points increases the chance of winning the majority falls to (in my case) 0. This is the difference between being a better player and just getting lucky.
 
-If Djokovic played an infinite number of matches against Murray, a priori we can be 98\% confident that he will win the majority. However, we would expect Djokovic to only win 71\% of these matches - not 98\%.
+If Djokovic played an infinite number of matches against Murray, a priori we can be 99\% confident that he will win the majority. However, we would expect Djokovic to only win 72\% of these matches - not 99\%.
 
 \subsection{Gibbs - Nadal v Djokovic}
 
