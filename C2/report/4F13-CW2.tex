@@ -2,7 +2,7 @@
 
 %opening
 \title{4F13 Probabilistic Machine Learning - True Skill Ranking}
-\author{Lawrence Tray \\ St John's College}
+\author{Candidate: 5562E}
 
 %packages
 \usepackage[margin=0.5in]{geometry}
@@ -44,15 +44,20 @@
 \maketitle
 
 \begin{abstract}
-This report outlines the results of the second coursework for 4F13. We aim to rank professional
+This report outlines the results of the second coursework for 4F13. We seek to rank professional tennis players based on game outcomes. We use the True-Skill model and apply Gibbs sampling as well as Expectation Propagation to the dataset. Both methods produce results that are in broad agreement. Nevertheless, EP is more computationally efficient.
+
+The Gibbs sampler must be afforded a burn-in period to ensure the Markov chain is stationary and then the samples are thinned to ensure approximate independence. EP does not suffer from these weaknesses though it only returns estimates for the parameters of each player and not cross-correlation terms. This means that player comparison may be slightly less accurate for EP.
+
+A player's win ratio is a coarse predictor of skill though somewhat unsatisfactory as it fails to take into account the opposition in each match. This is the reason for the True-Skill model.
 \end{abstract}
 
 \tableofcontents
 
+\pagebreak
 \section{Questions}
 \subsection{Gibbs Sampling}
 
-Gibbs sampling is used to sample from a multi-variate distribution by sequentially sampling from univariate conditionals. In the True-Skill model, we can approximate the conditional distribution with a 1-D Gaussian of a certain mean and variance - which are functions of the other variables. A portion of the modified code to compute these samples is given in listing \ref{lst:gibbs}.
+Gibbs sampling is used to sample from a multi-variate distribution by sequentially sampling from univariate conditionals. In the True-Skill model, we can approximate the conditional distribution with a 1-D Gaussian of a certain mean and variance - which are functions of the other variables and game outcomes. A portion of the modified code to compute these samples is given in listing \ref{lst:gibbs}.
 
 \begin{lstlisting}[frame=single, caption={Gibbs sampling additions}, label={lst:gibbs}, language={python}]
 m = np.zeros((M, 1))
@@ -63,7 +68,7 @@ for p in range(M):
 	m[p] = np.dot(t[:,0], (wins_array - loss_array))
 \end{lstlisting}
 
-We plot the sampled player skills for a few players (figure \ref{fig:skill-samples-long}). These data do appear noisy (in some sense random) but it appears that neighbouring samples are strongly correlated. Furthermore it is hard to tell how soon the Gibbs sampler transitions into a stable probability density region.
+We plot the sampled player skills for a few players (figure \ref{fig:skill-samples-long}). These data do appear noisy (in some sense random) but it is hard to tell how soon the Gibbs sampler transitions into a stable probability density region.
 
 \begin{figure}[!h]
 	\centering
@@ -72,7 +77,7 @@ We plot the sampled player skills for a few players (figure \ref{fig:skill-sampl
 	\label{fig:skill-samples-long}
 \end{figure}
 
-To investigate the burn-in time (iterations until the Gibbs is in a stationary state), we can plot the population mean and standard deviation at each Gibbs iteration - figure \ref{fig:burn-in}. The population mean gives us little information but we see that the standard deviation converges to a steady value fairly quickly (only after 10 iterations). We can therefore set the burn-in time to $b=10$ and we would discard all preceding samples. 
+To investigate the burn-in time, we plot the population mean and standard deviation at each Gibbs iteration - figure \ref{fig:burn-in}. The population mean gives us little information but we see that the standard deviation converges to a steady value fairly quickly (only after 10 iterations). We set the burn-in time to $b=10$ and discard all preceding samples. 
 
 \begin{figure}[!h]
 	\centering
@@ -81,7 +86,7 @@ To investigate the burn-in time (iterations until the Gibbs is in a stationary s
 	\label{fig:burn-in}
 \end{figure}
 
-However, there is an additional wrinkle, the plot in figure \ref{fig:skill-samples-long} is smoother than it should be; neighbouring samples are not independent. To test this hypothesis, we plot the auto-correlation of each player's skill samples (figure \ref{fig:auto-cor}). For samples to be approximately independent, their correlation should be close to 0. This is only true for all players for an offset of at least $k=10$. Nevertheless, we get good enough for $k=5$ - excepting one player: Djokovic.
+However, there is an additional wrinkle, the plot in figure \ref{fig:skill-samples-long} is smoother than it should be; neighbouring samples are not independent. To test this hypothesis, we plot the auto-correlation of each player's skill samples (figure \ref{fig:auto-cor}). For samples to be approximately independent, their correlation should be close to 0. We get good enough for an offset of $t=5$ - excepting one player: Djokovic.
 
 \begin{figure}[!h]
 	\centering
@@ -90,9 +95,8 @@ However, there is an additional wrinkle, the plot in figure \ref{fig:skill-sampl
 	\label{fig:auto-cor}
 \end{figure}
 
-In summary, to run our Gibbs sampler efficiently and reliably, we only use samples after a burn-in period of $b=10$ iterations. Even then, we thin the samples such that we only keep every $t$'th ($t=5$) sample to ensure that they are approximately independent. We use these values $b=10$ and $t=5$ for the rest of the report - such that for 1100 samples we only keep 218 of them.
+In summary, to run our Gibbs sampler reliably, we only use samples after a burn-in period of $b=10$ iterations. Even then, we thin the samples such that we only keep every $t$'th ($t=5$) sample to ensure that they are approximately independent. We use these values $b=10$ and $t=5$ for the rest of the report.
 
-\clearpage
 \subsection{EP - Message Passing}
 
 Nevertheless, Gibbs sampling is rather computationally intensive. An alternative is message-passing through the Expectation Propagation (EP algorithm). This treats each player as a vertex on a graph, connected by directed edges representing game outcomes. We can use message passing (a form of Belief Propagation) to iteratively improve on our guess for each player's marginal skill. We approximate the marginal skill by a Gaussian with two parameters: mean and precision (inverse variance). These parameters have the advantage of combining simply to form the messages.
@@ -231,41 +235,24 @@ Table \ref{tab:top-4-gibbs} agrees with \ref{tab:top-4-skills} very well. If any
 \clearpage
 \subsection{Method Comparison: Win ratio, Gibbs and EP}
 
-We go about ranking players using different methods: basic win ratio model; Gibbs sampling for True-Skill model; and EP estimates for True-Skill.
+We go about ranking players using different methods: win ratio; Gibbs sampling for the True-Skill model; and EP estimates for True-Skill.
 
-The win ratio model assumes that each player has a fixed probability of winning their match irrespective of their opponent. If a player has played $n$ matches and won $k$ of them, we know their win ratio is distributed as $p \sim \Ncal(k/n, k(n-k)/n^2)$; this applies standard results for combining $n$ independent Bernoulli r.v.'s. We plot the mean and standard deviation of $p$ on figure \ref{fig:win-ratio-ranking}.
+The win ratio model assumes that each player has a fixed probability of winning their match irrespective of their opponent. If a player has played $n$ matches and won $k$ of them, we know their win ratio is distributed as $p \sim \Ncal(k/n, k(n-k)/n^2)$; this applies standard results for combining $n$ independent Bernoulli r.v.'s.
 
-With Gibbs sampling, we sample the player skill from conditional distributions and update the sample for each player at every iteration such that we mimic sampling from the joint. After burn-in and thinning, we have a set of independent samples for the skill of each player and we can calculate the mean and variance of this set empirically (plotted on figure \ref{fig:gibbs-ranking}).
+With Gibbs sampling, we sample the player skill from conditionals such that we mimic sampling from the joint. After burn-in and thinning, we have a set of independent samples for the skill of each player and we can calculate the mean and variance of this set empirically.
 
-For Expectation Propagation, we run the Message Passing algorithm for 5 iterations to achieve convergence. This returns the expected means and precisions (inverse variance) for the skill of each player and so we can plot these directly (figure \ref{fig:ep-ranking})
-
-\begin{figure}[!h]
-	\centering
-	\includegraphics[width=\linewidth]{ep-skills-by-gibbs.png}
-	\caption{Player skills calculated by EP, ranked by Gibbs sample mean}
-	\label{fig:ep-by-gibbs}
-\end{figure}
+For Expectation Propagation, we run the Message Passing algorithm for 5 iterations to achieve convergence. This returns the expected means and precisions (inverse variance) for the skill of each player.
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=\linewidth]{win-ratio.png}
-	\caption{Player rankings by win ratio}
-	\label{fig:win-ratio-ranking}
+	\includegraphics[width=\linewidth]{combined-ranking.png}
+	\caption{Player skills ranked by Gibbs sample mean}
+	\label{fig:combined-ranking}
 \end{figure}
 
-\begin{figure}[!h]
-	\centering
-	\includegraphics[width=\linewidth]{gibbs-ranking.png}
-	\caption{Players rankings by mean of Gibbs skill samples}
-	\label{fig:gibbs-ranking}
-\end{figure}
+We plot all three methods on figure \ref{fig:combined-ranking} - rank ordering by Gibbs sample mean. Right away we see excellent agreement between the Gibbs and EP datasets. They seem to differ only by a constant and a small amount of noise. The constant offset does not matter when comparing players but it is determined by the prior $p(w) \sim \Ncal(0, 1)$. It is possible that the EP algorithm drifts away from this prior after initialisation. The noise we see (slight discrepancies in rank order) may be due to approximation errors from each approach. Nevertheless, the variances of both Gibbs and EP match closely.
 
-\begin{figure}[!h]
-	\centering
-	\includegraphics[width=\linewidth]{ep-ranking.png}
-	\caption{Player rankings by mean of EP-estimated skills}
-	\label{fig:ep-ranking}
-\end{figure}
+As for the win ratio, its rank ordering does not agree especially well with the other two. This is to be expected as the win ratio does not factor in who the opposition is when determining a rank ordering. Nonetheless, the general trend of higher win ratios meaning higher skill is preserved. It is interesting to note that there are several players with a win ratio of 0 who are moderately high up on the Gibbs rankings (e.g. Colin Fleming). This means that they must have played very few games (losing all of them) and so their mean stays close to the prior mean of 0 albeit with high variance. If we increased the prior variance, we would see fewer players with no wins to their name appearing so high up in the rankings.
 
 \textbf{Words}: XX
 
