@@ -49,7 +49,7 @@ def gibbs_sample_run():
 
 
 def epranking():
-    num_iters = 3
+    num_iters = 5
     # run message passing algorithm, returns mean and precision for each player
     top_four = [15, 4, 0, 10]
     mean_player_skills, precision_player_skills = eprank(G, M, num_iters)
