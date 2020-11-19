@@ -1,6 +1,6 @@
-\contentsline {section}{\numberline {1}Questions}{2}{section.1}%
-\contentsline {subsection}{\numberline {a}Gibbs Sampling}{2}{subsection.1.1}%
-\contentsline {subsection}{\numberline {b}EP - Message Passing}{3}{subsection.1.2}%
-\contentsline {subsection}{\numberline {c}EP - Player Comparison}{5}{subsection.1.3}%
-\contentsline {subsection}{\numberline {d}Gibbs - Player Comparison}{6}{subsection.1.4}%
-\contentsline {subsection}{\numberline {e}Method Comparison: Win ratio, Gibbs and EP}{8}{subsection.1.5}%
+\contentsline {section}{\numberline {1}Questions}{1}{section.1}%
+\contentsline {subsection}{\numberline {a}Gibbs Sampling}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {b}EP - Message Passing}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {c}EP - Player Comparison}{3}{subsection.1.3}%
+\contentsline {subsection}{\numberline {d}Gibbs - Player Comparison}{4}{subsection.1.4}%
+\contentsline {subsection}{\numberline {e}Method Comparison: Win ratio, Gibbs and EP}{6}{subsection.1.5}%

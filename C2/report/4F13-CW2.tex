@@ -1,7 +1,7 @@
 \documentclass[]{article}
 
 %opening
-\title{4F13 Probabilistic Machine Learning - True Skill Ranking}
+\title{4F13 Probabilistic Machine Learning - Probabilistic Ranking}
 \author{Candidate: 5562E}
 
 %packages
@@ -43,17 +43,8 @@
 \setcounter{page}{1}
 \maketitle
 
-\begin{abstract}
-This report outlines the results of the second coursework for 4F13. We seek to rank professional tennis players based on game outcomes. We use the True-Skill model and apply Gibbs sampling as well as Expectation Propagation to the dataset. Both methods produce results that are in broad agreement. Nevertheless, EP is more computationally efficient.
-
-The Gibbs sampler must be afforded a burn-in period to ensure the Markov chain is stationary and then the samples are thinned to ensure approximate independence. EP does not suffer from these weaknesses though it only returns estimates for the parameters of each player and not cross-correlation terms. This means that player comparison may be slightly less accurate for EP.
-
-A player's win ratio is a coarse predictor of skill though somewhat unsatisfactory as it fails to take into account the opposition in each match. This is the reason for the True-Skill model.
-\end{abstract}
-
 \tableofcontents
 
-\pagebreak
 \section{Questions}
 \subsection{Gibbs Sampling}
 
@@ -99,7 +90,7 @@ In summary, to run our Gibbs sampler reliably, we only use samples after a burn-
 
 \subsection{EP - Message Passing}
 
-Nevertheless, Gibbs sampling is rather computationally intensive. An alternative is message-passing through the Expectation Propagation (EP algorithm). This treats each player as a vertex on a graph, connected by directed edges representing game outcomes. We can use message passing (a form of Belief Propagation) to iteratively improve on our guess for each player's marginal skill. We approximate the marginal skill by a Gaussian with two parameters: mean and precision (inverse variance). These parameters have the advantage of combining simply to form the messages.
+Nevertheless, Gibbs sampling is rather computationally intensive. An alternative is message-passing through the Expectation Propagation (EP algorithm). This treats each player as a vertex on a graph, connected by directed edges representing match outcomes. We can use message passing (a form of Belief Propagation) to iteratively improve on our guess for each player's marginal skill. We approximate the marginal skill by a Gaussian with two parameters: mean and precision (inverse variance). These parameters have the advantage of combining simply to form the messages.
 
 In Gibbs sampling, we run a Markov chain and aim to converge to a stationary probability distribution. This target distribution is the joint player skill distribution. However, in EP we do not converge to a distribution but rather a stable graph object; further iterations do not alter the parameters of each vertex: mean and precision.
 
@@ -122,16 +113,15 @@ In the previous section, we saw the Gibbs sampler only takes $b=10$ samples to c
 	\label{fig:ep-evolution}
 \end{figure}
 
-From the plots we can tell that we converge quickly for this set of players. Setting the number of iterations to $T=5$ seems reasonable to get a good estimate of the rankings as the mean and precision do not change much after this point. This value of $T=5$ will be used throughout the rest of the report.
+We converge quickly for this set of players. Setting the number of iterations to $T=5$ seems reasonable to get a good estimate of the rankings as the mean and precision do not change much after this point. This value of $T=5$ will be used throughout the rest of the report.
 
-\clearpage
 \subsection{EP - Player Comparison}
 
-Suppose that a player $i$ goes up against $j$. In the True-Skill model, we denote their skill by $w_i \sim \Ncal(m_i, \sigma_i^2)$ and $w_j \sim \Ncal(m_j, \sigma_j^2)$ respectively. The mean and variance parameters are estimated through message passing (the variance is just the inverse of the precision). 
+Suppose that a player $i$ goes up against $j$. We denote their skills by $w_i \sim \Ncal(m_i, \sigma_i^2)$ and $w_j \sim \Ncal(m_j, \sigma_j^2)$ respectively. The mean and variance parameters (inverse precision) are estimated through EP. 
 
 The performance difference $s_{ij} = w_i - w_j$ is corrupted by Gaussian noise of unit variance $t_{ij} = s_{ij} + n$ to account for performance inconsistency ($n \sim \Ncal(0, 1)$). The match result is then given by the sign of $t_{ij}$ such that $t_{ij} > 0 \Rightarrow i \text{ wins}$ and j wins otherwise.
 
-Having run message-passing, we wish to compute the probability that $i$ is more skilful than $j$: $P(s_{ij} > 0)$. This is different from the probability that $i$ beats $j$ in a head-to-head: $P(t_{ij} > 0)$. These probabilities are easy to compute by assuming that $w_i \indep w_j \indep n \indep w_i$, so means and variances combine additively:
+Having run EP, we wish to compute the probability that $i$ is more skilful than $j$: $P(s_{ij} > 0)$. This is different from the probability that $i$ beats $j$ in a head-to-head: $P(t_{ij} > 0)$. These probabilities are easy to compute by assuming that $w_i \indep w_j \indep n \indep w_i$, so means and variances combine additively:
 %
 \begin{align}
 		s_{ij} = w_i - w_j &\sim \Ncal(m_i - m_j, \sigma_i^2 + \sigma_j^2)
@@ -180,7 +170,7 @@ However, we can also compare players through Gibbs sampling. Restricting ourselv
 	\item Empirical comparison of joint samples
 \end{enumerate}
 
-The first method is shown in figure \ref{fig:djok-nadal-marginal}. We estimate the parameters of each Gaussian by taking the mean and variance of each player's Gibbs samples (after accounting for burn-in and thinning). Indeed a Gaussian does seem to be a good fit for the data. We see that Djokovic has higher mean and lower variance.
+The first method is shown in figure \ref{fig:djok-nadal-marginal}. We estimate the parameters of each Gaussian by taking the mean and variance of each player's Gibbs samples (after burn-in and thinning). Indeed a Gaussian does seem to be a good fit for the data. We see that Djokovic has higher mean and lower variance.
 
 \begin{figure}[!h]
 	\centering
@@ -189,7 +179,7 @@ The first method is shown in figure \ref{fig:djok-nadal-marginal}. We estimate t
 	\label{fig:djok-nadal-marginal}
 \end{figure}
 
-Instead we can fit a bivariate Gaussian to the pair-wise samples $\{(w_i^{(n)}, w_j^{(n)})\}_{n=1}^{N}$ (figure \ref{fig:djok-nadal-joint}). We approximate the parameters as before but now noting that we have an additional covariance term $\sigma_{ij}^2$ off the diagonal of the $2 \times 2$ variance matrix. This covariance term is non-zero (in fact positive) meaning that the principal axes of the Gaussian are slightly skewed.
+We can also fit a bivariate Gaussian to the pair-wise samples $\{(w_i^{(n)}, w_j^{(n)})\}_{n=1}^{N}$ (figure \ref{fig:djok-nadal-joint}). We approximate the parameters as before but now noting that we have an additional covariance term $\sigma_{ij}^2$ off the diagonal of the $2 \times 2$ variance matrix. This covariance term is non-zero (in fact positive) meaning that the principal axes of the Gaussian are slightly skewed.
 
 \begin{figure}[!h]
 	\centering
@@ -235,13 +225,13 @@ Table \ref{tab:top-4-gibbs} agrees with \ref{tab:top-4-skills} very well. If any
 \clearpage
 \subsection{Method Comparison: Win ratio, Gibbs and EP}
 
-We go about ranking players using different methods: win ratio; Gibbs sampling for the True-Skill model; and EP estimates for True-Skill.
+We go about ranking players using different methods: win ratio; Gibbs sampling for True-Skill; and EP estimates for True-Skill.
 
-The win ratio model assumes that each player has a fixed probability of winning their match irrespective of their opponent. If a player has played $n$ matches and won $k$ of them, we know their win ratio is distributed as $p \sim \Ncal(k/n, k(n-k)/n^2)$; this applies standard results for combining $n$ independent Bernoulli r.v.'s.
+The win ratio model assumes that each player has a fixed probability of winning their match irrespective of their opponent. If a player has played $k$ out of $n$ matches, their win ratio is distributed as $r \sim \Ncal(k/n, k(n-k)/n^2)$; this applies standard results for combining $n$ independent Bernoulli r.v.'s.
 
-With Gibbs sampling, we sample the player skill from conditionals such that we mimic sampling from the joint. After burn-in and thinning, we have a set of independent samples for the skill of each player and we can calculate the mean and variance of this set empirically.
+With Gibbs sampling, we sample the player skill from conditionals such that we mimic sampling from the joint. After burn-in and thinning, we have a set of independent samples for the skill of each player and we can compute the mean and variance of this set empirically.
 
-For Expectation Propagation, we run the Message Passing algorithm for 5 iterations to achieve convergence. This returns the expected means and precisions (inverse variance) for the skill of each player.
+For EP, we run the message-passing for 5 iterations to achieve convergence. This returns the expected means and precisions for the skill of each player.
 
 \begin{figure}[!h]
 	\centering
@@ -250,10 +240,10 @@ For Expectation Propagation, we run the Message Passing algorithm for 5 iteratio
 	\label{fig:combined-ranking}
 \end{figure}
 
-We plot all three methods on figure \ref{fig:combined-ranking} - rank ordering by Gibbs sample mean. Right away we see excellent agreement between the Gibbs and EP datasets. They seem to differ only by a constant and a small amount of noise. The constant offset does not matter when comparing players but it is determined by the prior $p(w) \sim \Ncal(0, 1)$. It is possible that the EP algorithm drifts away from this prior after initialisation. The noise we see (slight discrepancies in rank order) may be due to approximation errors from each approach. Nevertheless, the variances of both Gibbs and EP match closely.
+We plot all three methods on figure \ref{fig:combined-ranking} - rank ordering by Gibbs sample mean. Gibbs and EP match closely. The means seem to differ only by a constant and a small amount of noise. The constant offset does not matter when comparing players but it is determined by the prior $p(w) \sim \Ncal(0, 1)$. It is possible that the EP algorithm drifts away from this prior after initialisation. The noise we see (slight discrepancies in rank order) may be due to approximation errors from each approach. Nevertheless, the variances of both Gibbs and EP match closely.
 
-As for the win ratio, its rank ordering does not agree especially well with the other two. This is to be expected as the win ratio does not factor in who the opposition is when determining a rank ordering. Nonetheless, the general trend of higher win ratios meaning higher skill is preserved. It is interesting to note that there are several players with a win ratio of 0 who are moderately high up on the Gibbs rankings (e.g. Colin Fleming). This means that they must have played very few games (losing all of them) and so their mean stays close to the prior mean of 0 albeit with high variance. If we increased the prior variance, we would see fewer players with no wins to their name appearing so high up in the rankings.
+As for the win ratio, its rank ordering does not agree especially well with the other two. This is expected as it ignores the opposition. Nonetheless, in general higher win ratio means higher skill. There are several players with a win ratio of 0 who are moderately high up on the Gibbs rankings (e.g. Colin Fleming). These players must have played very few games (losing all of them) and so their mean stays close to the prior mean of 0 albeit with high variance. If we increased the prior variance, we would see fewer players with no wins to their name appearing so high up in the rankings.
 
-\textbf{Words}: XX
+\textbf{Words}: 997
 
 \end{document}
