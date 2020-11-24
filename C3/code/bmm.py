@@ -25,7 +25,7 @@ def BMM(A, B, K, alpha, gamma):
     print("Looping through documents to populate count matrices...")
     for d in tqdm(range(D)):
         training_documents = np.where(A[:, 0] == d+1)  # get all occurrences of document d in the training data
-        w = np.array(A[training_documents, 1])  # number of unique words in document d
+        w = np.array(A[training_documents, 1])  # unique word id's in document d
         c = np.array(A[training_documents, 2])  # counts of words in document d
         k = sd[d]  # document d is in mixture k
         swk[w-1, k] += c  # number of times w is assigned to component k
