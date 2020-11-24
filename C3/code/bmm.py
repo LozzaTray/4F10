@@ -1,7 +1,7 @@
 from sampleDiscrete import sampleDiscrete
 import scipy.io as sio
 import numpy as np
-
+from tqdm import tqdm
 
 def BMM(A, B, K, alpha, gamma):
 
@@ -22,7 +22,8 @@ def BMM(A, B, K, alpha, gamma):
     swk = np.zeros((W, K))  # K multinomials over W unique words
     sk_docs = np.zeros((K, 1), dtype=int)  # number of documents assigned to each mixture
     # Populate the count matrices by looping over documents
-    for d in range(D):
+    print("Looping through documents to populate count matrices...")
+    for d in tqdm(range(D)):
         training_documents = np.where(A[:, 0] == d+1)  # get all occurrences of document d in the training data
         w = np.array(A[training_documents, 1])  # number of unique words in document d
         c = np.array(A[training_documents, 2])  # counts of words in document d
@@ -34,7 +35,8 @@ def BMM(A, B, K, alpha, gamma):
 
     num_iters_gibbs = 10
     # Perform Gibbs sampling through all documents and words
-    for iter in range(num_iters_gibbs):
+    print("Gibbs sampling...")
+    for iter in tqdm(range(num_iters_gibbs)):
         for d in range(D):
 
             training_documents = np.where(A[:, 0] == d+1)  # get all occurrences of document d in trh training data
@@ -64,7 +66,8 @@ def BMM(A, B, K, alpha, gamma):
     lp = 0
     nd = 0
     unique_docs_in_b = np.unique(B[:, 0])
-    for doc in unique_docs_in_b:
+    print("Test Documents...")
+    for doc in tqdm(unique_docs_in_b):
         test_docs = np.where(B[:, 0] == doc)
         w = B[test_docs, 1]  # unique words in doc d
         c = B[test_docs, 2]  # counts
@@ -80,6 +83,7 @@ def BMM(A, B, K, alpha, gamma):
     return perplexity, swk
 
 if __name__ == '__main__':
+    print("####### 4F13 - BMM #######")
     np.random.seed(1)
     # load data
     data = sio.loadmat('kos_doc_data.mat')

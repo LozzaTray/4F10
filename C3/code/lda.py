@@ -2,6 +2,7 @@ import scipy.io as sio
 import numpy as np
 from scipy.sparse import coo_matrix as sparse
 from sampleDiscrete import sampleDiscrete
+from tqdm import tqdm
 
 
 def LDA(A, B, K, alpha, gamma):
@@ -29,7 +30,8 @@ def LDA(A, B, K, alpha, gamma):
 
     s = []  # each element of the list corresponds to a document
     r = 0
-    for d in range(D):  # iterate over the documents
+    print("Iterating over documents...")
+    for d in tqdm(range(D)):  # iterate over the documents
         z = np.zeros((W, K))  # unique word topic assignment counts for doc d
         words_in_doc_d = A[np.where(A[:, 0] == d+1), 1][0]-1
         for w in words_in_doc_d:  # loop over the unique words in doc d
@@ -45,7 +47,8 @@ def LDA(A, B, K, alpha, gamma):
     sk = np.sum(skd, axis=1)  # word to topic assignment counts accross all documents
     # This makes a number of Gibbs sampling sweeps through all docs and words, it may take a bit to run
     num_gibbs_iters = 10
-    for iter in range(num_gibbs_iters):
+    print("Gibbs sampling through all Training docs and words...")
+    for iter in tqdm(range(num_gibbs_iters)):
         for d in range(D):
             z = s[d].todense()  # unique word topic assigmnet counts for document d
             words_in_doc_d = A[np.where(A[:, 0] == d + 1), 1][0] - 1
@@ -75,7 +78,8 @@ def LDA(A, B, K, alpha, gamma):
     # We need the new Skd matrix, derived from corpus B
     lp, nd = 0, 0
     unique_docs_in_b = np.unique(B[:, 0])
-    for d in unique_docs_in_b:  # loop over all documents in B
+    print("Computing perplexity for Test set...")
+    for d in tqdm(unique_docs_in_b):  # loop over all documents in B
         # randomly assign topics to each word in test document d
         z = np.zeros((W, K))
         words_in_d = B[np.where(B[:, 0] == d), 1][0]-1
@@ -116,6 +120,7 @@ def LDA(A, B, K, alpha, gamma):
 
 
 if __name__ == '__main__':
+    print("####### 4F13 - LDA #######")
     np.random.seed(0)
     # load data
     data = sio.loadmat('kos_doc_data.mat')
