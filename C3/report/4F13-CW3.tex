@@ -7,6 +7,7 @@
 %packages
 \usepackage[margin=0.5in]{geometry}
 \usepackage[export]{adjustbox}
+\usepackage{mathtools}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -37,6 +38,8 @@
 \newcommand{\iid}{\stackrel{iid}{\sim}}
 \newcommand{\figwidth}{0.6\linewidth}
 \newcommand{\betaml}{\hat{\beta}^{ML}}
+\newcommand{\Expect}{\mathbb{E}}
+
 
 %section numbering
 \renewcommand{\thesubsection}{\alph{subsection}}
@@ -52,7 +55,7 @@
 
 \section{Introduction}
 
-We have a document test set $\Acal$, which consists of $D$ documents indexed by $d \in \{1 \dots D\}$. A document is an ordered list of words. The vocabulary $\Mcal$ has $M=|\Mcal|$ unique words. We denote the $n$'th word in the $d$'th document by $w_{nd} \in \{1 \dots N_d\}$. Where $N_d$ is the length of document $d$. For simplicity we denote the count of occurences of word $m$ in the test set by $c_m$.
+We have a document test set $\Acal$, which consists of $D$ documents indexed by $d \in \{1 \dots D\}$. A document is an ordered list of words. The vocabulary $\Mcal$ has $M=|\Mcal|$ unique words. We denote the $n$'th word in the $d$'th document by $w_{nd} \in \{1 \dots N_d\}$. Where $N_d$ is the length of document $d$. For simplicity we denote the count of occurrences of word $m$ in the test set by $c_m$.
 
 We hold back a test set $\Bcal$ to calculate the performance of our approaches.
 
@@ -80,15 +83,82 @@ We can now take derivatives and include a Lagrange multiplier to respect the sum
 	\therefore \betaml_i = \frac{c_i}{\lambda} = \frac{c_i}{\sum_{m \in \Mcal} c_m} = \frac{c_i}{C}
 \end{equation}
 %
-Therefore, the ML estimate is simply the empirical frequency of each word (normalised by the sum of all counts $C$).
+Therefore, the ML estimate is simply the empirical frequency of each word (normalised by the sum of all counts $C$). For the training set $\Acal$ we have $C_\Acal = 271898$.
 %
 \begin{figure}[!h]
-	\centering
-	\includegraphics[width=\figwidth]{hist-ml.png}
+	\begin{subfigure}{0.5\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{hist-ml.png}
+		\caption{Top 20 most prevalent words}
+		\label{fig:hist-ml-max}
+	\end{subfigure}
+	\begin{subfigure}{0.5\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{hist-ml-min.png}
+		\caption{Top 20 least prevalent words}
+		\label{fig:hist-ml-min}
+	\end{subfigure}
+	\caption{ML estimate of word probabilities trained on set $\Acal$}
 	\label{fig:hist-ml}
-	\caption{Histogram of top 20 most prevalent words in test set A}
 \end{figure}
+%
+Figure \ref{fig:hist-ml-max} shows the empirical frequencies of the top 20 words in document set $\Acal$. We have that $\betaml_{\max} \coloneqq \frac{\max_i c_i}{C} = \frac{3833}{271898}$ for the word \textit{``bush''} (the president - not the foliage). Likewise $\betaml_{\min} \coloneqq \frac{\min c_i}{C} = 0$ as there are some words in the vocabulary $\Mcal$ that never appear in the training set $\Acal$ (such as \textit{``bulb''} in \ref{fig:hist-ml-min}). Indeed, each new word $w^*$ under ML is assumed to be drawn from:
+%
+\begin{equation}
+	P(w^* = i | \betaml) = \frac{c_i}{C}
+	\label{eqn:ml-est}
+\end{equation}
+%
+Therefore, if we have an arbitrary test set $\mathcal{T}$ that is $T$ words long. The maximum probability test set would be $T$ repetitions of \textit{``bush''}. The lowest probability test set need only have a single word with zero probability under our ML estimate (e.g. \textit{``bulb''}) to make the probability of the whole multiply to 0.
+%
+\begin{align}
+	\log P(\mathcal{T}) |_{\max} &= T \log \betaml_{\max} = \frac{3833}{271898} T \\
+	\log P(\mathcal{T}) |_{\min} &=  0
+\end{align}
+%
+This is clearly unsatisfactory; a feasible test set should not have zero probability. Therefore, the ML estimate is insufficient.
+ 
 \subsection{Bayesian Inference}
+
+Instead, we can perform Bayesian inference to ameliorate these issues. We assume the probability vector $\beta$ has a Dirichlet prior $\beta \sim Dir(\beta ; \alpha)$ with concentration parameter $\alpha$ - where $\alpha$ and $\beta$ are the same shape. We perform Bayesian inference to obtain the posterior for $\beta$.
+%
+\begin{align}
+	P(\beta | \Acal) &\propto P(\beta) \cdot P(\Acal | \beta) \nonumber \\
+	&= \left( \frac{1}{B(\alpha)} \prod_{m = 1}^{M} \beta_m^{\alpha_m -1} \right) \cdot \prod_{p=1}^{M} \beta_m^{c_m} \nonumber \\
+	&\propto \prod_{m = 1}^{M} \beta_m^{(\alpha_m + c_m) -1} \nonumber \\
+	&\propto Dir(\beta ; \alpha + c) \nonumber \\
+	\therefore P(\beta | \Acal) &= Dir(\beta ; \alpha + c)
+	\label{eqn:posterior}
+\end{align}
+%
+Where, $c$ is now a vector of word counts. We say that the Dirichlet distribution is a conjugate prior to the categorical / multinomial distribution because the posterior is also Dirichlet (albeit with a new parameter). We now seek to compute the predictive distribution for a new word $w^*$ given the posterior.
+%
+\begin{align*}
+	P(w^* = i | \Acal) &= \int_{\beta} P(w^* = i, \beta | \Acal) d\beta \\
+	&= \int_{\beta_i} P(w^* = i | \beta , \Acal) \int_{\beta_{\backslash i}} P(\beta | \Acal) d\beta_{\backslash i} d\beta_i \\
+	&= \int P(w^* = i | \beta_i) P(\beta_i | \Acal) d\beta_i \\
+	&= \int \beta_i P(\beta_i | \Acal) d\beta_i \\
+	&= \Expect_{\beta_i | \Acal} [\beta_i] \\
+	&= \frac{\alpha_i + c_i}{\sum_{m=1}^{M} \alpha_m + c_m}
+\end{align*}
+%
+Where the last line is a simple property of the Dirichlet: the mean of each component is proportional to the corresponding parameter value (subject to normalisation). An interesting observation is that the predictive distribution is exactly equal to that computed using the MAP estimate. If we consider only a symmetric Dirichlet such that $\alpha = a \mathbf{1}$. The previous expression reduces to:
+%
+\begin{equation}
+	P(w^* = i | \Acal) = \frac{a + c_i}{Ma + C}
+	\label{eqn:pred-bayes}
+\end{equation}
+%
+By comparing equations \ref{eqn:ml-est} and \ref{eqn:pred-bayes}, we see that the posterior has the effect of adding a pseudo-count $a$ to each word prior to observing the training set $\Acal$.
+%
+\begin{align*}
+	P(w^*=i | \Acal) &> P(w^*=i | \betaml) \\
+	\frac{a + c_i}{Ma + C} &> \frac{c_i}{C} \\
+	Ca + Cc_i &> Mac_i + Cc_i \\
+	c_i &< \frac{C}{M}
+\end{align*}
+%
+As the prior is symmetric the same pseudo-count $a$ is added to each word. Those with $c_i < C/M$ gain probability and those with $c_i > C/M$ lose it. The effect is that all word probabilities are drawn closer to $C/M$ but importantly no probability rank orderings stay the same. The larger the value of $a$, the stronger this effect and the less importance is assigned to the frequency observations in $\Acal$.
 
 \textbf{Words}: XX
 
