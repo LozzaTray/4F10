@@ -133,16 +133,18 @@ Instead, we can perform Bayesian inference to ameliorate these issues. We assume
 %
 Where, $c$ is now a vector of word counts. We say that the Dirichlet distribution is a conjugate prior to the categorical / multinomial distribution because the posterior is also Dirichlet (albeit with a new parameter). We now seek to compute the predictive distribution for a new word $w^*$ given the posterior.
 %
-\begin{align*}
+\begin{align}
+\begin{split}
 	P(w^* = i | \Acal) &= \int_{\beta} P(w^* = i, \beta | \Acal) d\beta \\
 	&= \int_{\beta_i} P(w^* = i | \beta , \Acal) \int_{\beta_{\backslash i}} P(\beta | \Acal) d\beta_{\backslash i} d\beta_i \\
 	&= \int P(w^* = i | \beta_i) P(\beta_i | \Acal) d\beta_i \\
 	&= \int \beta_i P(\beta_i | \Acal) d\beta_i \\
 	&= \Expect_{\beta_i | \Acal} [\beta_i] \\
-	&= \frac{\alpha_i + c_i}{\sum_{m=1}^{M} \alpha_m + c_m}
-\end{align*}
+	&= \frac{\alpha_i + c_i}{\sum_{m=1}^{M} \alpha_m + c_m} \coloneqq \hat{\beta}^*_i
+\end{split}
+\end{align}
 %
-Where the last line is a simple property of the Dirichlet: the mean of each component is proportional to the corresponding parameter value (subject to normalisation). An interesting observation is that the predictive distribution is exactly equal to that computed using the MAP estimate. If we consider only a symmetric Dirichlet such that $\alpha = a \mathbf{1}$. The previous expression reduces to:
+Where the last line is a simple property of the Dirichlet: the mean of each component is proportional to the corresponding parameter value (subject to normalisation). An interesting observation is that the predictive distribution is exactly equal to that computed using the MAP estimate ($\hat{\beta}^* = \hat{\beta}^{MAP}$). If we consider only a symmetric Dirichlet such that $\alpha = a \mathbf{1}$. The previous expression reduces to:
 %
 \begin{equation}
 	P(w^* = i | \Acal) = \frac{a + c_i}{Ma + C}
@@ -151,14 +153,61 @@ Where the last line is a simple property of the Dirichlet: the mean of each comp
 %
 By comparing equations \ref{eqn:ml-est} and \ref{eqn:pred-bayes}, we see that the posterior has the effect of adding a pseudo-count $a$ to each word prior to observing the training set $\Acal$.
 %
-\begin{align*}
+\begin{align}
+\begin{split}
 	P(w^*=i | \Acal) &> P(w^*=i | \betaml) \\
 	\frac{a + c_i}{Ma + C} &> \frac{c_i}{C} \\
 	Ca + Cc_i &> Mac_i + Cc_i \\
 	c_i &< \frac{C}{M}
-\end{align*}
+\end{split}
+\end{align}
 %
 As the prior is symmetric the same pseudo-count $a$ is added to each word. Those with $c_i < C/M$ gain probability and those with $c_i > C/M$ lose it. The effect is that all word probabilities are drawn closer to $C/M$ but importantly no probability rank orderings stay the same. The larger the value of $a$, the stronger this effect and the less importance is assigned to the frequency observations in $\Acal$.
+
+\subsection{Testing Performance}
+
+We now apply this Bayesian analysis to an unseen test document. The log probability of all words in a document $d$ is denoted by $\{w^*_{nd}\}_{n=1}^{N_d}$. To compute the log probability $l(d)$:
+%
+\begin{align}
+\begin{split}
+	l(d) &\coloneqq \log P(\{w^*_{nd}\}_{n=1}^{N_d} | \Acal) \\
+	&= \log \prod_{n=1}^{N_d} P(w^*_{nd} | \Acal) \\
+	&= \log \prod_{m = 1}^{M} P(w^*=m | \Acal)^{c^*_{md}} \\
+	&= \sum_{m=1}^{M} c^*_{md} \log P(w^* = m | \Acal) \\
+	&= \sum_{m=1}^{M} c^*_{md} \log \frac{a+c_m}{Ma+C} \\
+	&= (c^*_d)^T \log \hat{\beta}^{*}
+\end{split}
+\label{eqn:test-doc-prob}
+\end{align}
+%
+Where $c^*_{md}$ is the count of word $m$ in the unseen document $d$. All words are independent, hence how we can factorise the first line. Word order matters. Therefore, we treat a document as a sequence of categorical r.v.'s rather than a single multinomial over word counts; we omit a combinatoric term for all the various permutations of words in a document. The phrase \textit{``Bush beats Kerry''} is very different to \textit{``Kerry beats Bush''} so we treat each phrase as a separate document rather than combining their probabilities.
+
+ We set the pseudo-count parameter to $a=10$ and apply equation \ref{eqn:test-doc-prob} to test document $d=2001$, to obtain:
+ %
+ \begin{equation}
+ 	l(d=2001)|_{a=10} = -3682.3
+ \end{equation}
+ %
+ As well as the log probability of document $d$, we are interested in the per-word perplexity $p(d)$ defined in equation \ref{eqn:perplex}.
+%
+\begin{equation}
+p(d) \coloneqq \exp \left(- \frac{l(d)}{N_d} \right)
+\label{eqn:perplex}
+\end{equation}
+%
+The expected perplexity of rolls from an $n$-sided die is $n$ and so the expected perplexity for samples drawn from a uniform multinomial with $M$ total categories would be $M$. This is the maximum perplexity of a multinomial with $M$ categories as we have maximum uncertainty. We can compute the perplexities for a single document or for all documents by simply concatenating documents after one another. The results are given in table \ref{tab:perplex}.
+%
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{c | c c c}
+		& One doc $d=2001 \in \Bcal$ & All docs $\forall d \in \Bcal$ & Uniform multinomial \\ \hline
+		per-word perplexity & 4310.8 & 2687.1 & $M=6906$
+	\end{tabular}
+\caption{Perplexities of documents in test set $\Bcal$}
+\label{tab:perplex}
+\end{table}
+%
+Documents with a higher prevalence of common words have higher log-probability and hence lower perplexity. Indeed document $d=2001$ has a higher perplexity than the average in set $\Bcal$ so we conclude that this document contain rarer words than in the rest of the set.
 
 \textbf{Words}: XX
 
