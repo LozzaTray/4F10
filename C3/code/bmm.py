@@ -3,7 +3,7 @@ import scipy.io as sio
 import numpy as np
 from tqdm import tqdm
 
-def BMM(A, B, K, alpha, gamma):
+def BMM(A, B, K, alpha, gamma, num_iters_gibbs=10):
 
     """
 
@@ -33,14 +33,15 @@ def BMM(A, B, K, alpha, gamma):
 
     sk_words = np.sum(swk, axis=0)  # number of words assigned to mixture k over all docs
 
-    num_iters_gibbs = 10
+    sk_docs_over_time = np.zeros((K, num_iters_gibbs+1), dtype=int)
+    sk_docs_over_time[:, 0] = np.copy(sk_docs)[:, 0]
     # Perform Gibbs sampling through all documents and words
     print("Gibbs sampling...")
     for iter in tqdm(range(num_iters_gibbs)):
         for d in range(D):
 
-            training_documents = np.where(A[:, 0] == d+1)  # get all occurrences of document d in trh training data
-            w = A[training_documents, 1]  # number of unique words in document d
+            training_documents = np.where(A[:, 0] == d+1)  # get all occurrences of document d in the training data
+            w = A[training_documents, 1]  # unique word ids in document d
             c = A[training_documents, 2]  # counts of words in document d
             old_class = sd[d]  # document d is in mixture k
             # remove document from counts
@@ -62,6 +63,9 @@ def BMM(A, B, K, alpha, gamma):
             sk_words[kk] += np.sum(c)
             sd[d] = kk
 
+        # add on to history
+        sk_docs_over_time[:, iter+1] = np.copy(sk_docs)[:, 0]
+
     # test documents
     lp = 0
     nd = 0
@@ -80,7 +84,7 @@ def BMM(A, B, K, alpha, gamma):
 
     perplexity = np.exp(-lp/nd)  # perplexity
 
-    return perplexity, swk
+    return perplexity, swk, sk_docs_over_time
 
 if __name__ == '__main__':
     print("####### 4F13 - BMM #######")
@@ -93,7 +97,7 @@ if __name__ == '__main__':
     K = 20  # number of clusters
     alpha = 10  # parameter of the Dirichlet over mixture components
     gamma = .1  # parameter of the Dirichlet over words
-    perplexity, swk = BMM(A, B, K, alpha, gamma)
+    perplexity, swk, sk_docs_over_time = BMM(A, B, K, alpha, gamma)
     print(perplexity)
     I = 20
     indices = np.argsort(-swk, axis=0)
