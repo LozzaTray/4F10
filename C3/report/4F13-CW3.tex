@@ -346,7 +346,7 @@ We plot the word entropy of each topic as a function of Gibbs iteration in figur
 
 The entropy of each topic has stabilised after 50 iterations. This, in conjunction with the stability of the posterior, shows 50 Gibbs sweeps to be sufficient for computing the perplexity. The log of perplexity of the test set $\log 2072.5 = 7.63$. This is modestly higher than the entropy of any particular topic, which is expected as the overall test set is a blend of topic and hence higher entropy than any individual specific topic.
 
-For interest we plot the top 20 words for the topic with lowest entropy ($k=4$) and that with highest posterior ($k=6$) 
+For interest we plot the top 20 words for the topic with lowest entropy ($k=4$) and that with highest posterior ($k=6$). This is shown on figure \ref{fig:top-topics}. The lowest entropy topic 4 appears to be rather technical analysis of polling data. A high fraction of the probability is contained in just a few top words - hence low entropy. On the other hand, topic 6 (the most prevalent) gives generic vocabulary for speaking about the November general election.
 %
 \begin{figure}[!h]
 	\begin{subfigure}{0.5\linewidth}
@@ -363,6 +363,6 @@ For interest we plot the top 20 words for the topic with lowest entropy ($k=4$) 
 	\label{fig:top-topics}
 \end{figure}
 
-\textbf{Words}: XX
+\textbf{Words}: 933
 
 \end{document}
