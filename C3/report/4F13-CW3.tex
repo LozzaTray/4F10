@@ -36,7 +36,7 @@
 \newcommand{\Mcal}{\mathcal{M}}
 \newcommand{\indep}{\perp \!\!\! \perp}
 \newcommand{\iid}{\stackrel{iid}{\sim}}
-\newcommand{\figwidth}{0.6\linewidth}
+\newcommand{\figwidth}{0.4\linewidth}
 \newcommand{\betaml}{\hat{\beta}^{ML}}
 \newcommand{\Expect}{\mathbb{E}}
 
@@ -59,6 +59,7 @@ We have a document test set $\Acal$, which consists of $D$ documents indexed by 
 
 We hold back a test set $\Bcal$ to calculate the performance of our approaches.
 
+\clearpage
 \section{Questions}
 \subsection{Maximum Likelihood}
 
@@ -118,6 +119,7 @@ Therefore, if we have an arbitrary test set $\mathcal{T}$ that is $T$ words long
 %
 This is clearly unsatisfactory; a feasible test set should not have zero probability. Therefore, the ML estimate is insufficient.
  
+ \clearpage
 \subsection{Bayesian Inference}
 
 Instead, we can perform Bayesian inference to ameliorate these issues. We assume the probability vector $\beta$ has a Dirichlet prior $\beta \sim Dir(\beta ; \alpha)$ with concentration parameter $\alpha$ - where $\alpha$ and $\beta$ are the same shape. We perform Bayesian inference to obtain the posterior for $\beta$.
@@ -164,6 +166,7 @@ By comparing equations \ref{eqn:ml-est} and \ref{eqn:pred-bayes}, we see that th
 %
 As the prior is symmetric the same pseudo-count $a$ is added to each word. Those with $c_i < C/M$ gain probability and those with $c_i > C/M$ lose it. The effect is that all word probabilities are drawn closer to $C/M$ but importantly no probability rank orderings stay the same. The larger the value of $a$, the stronger this effect and the less importance is assigned to the frequency observations in $\Acal$.
 
+\clearpage
 \subsection{Testing Performance of Bayesian Predictor}
 
 We now apply this Bayesian analysis to an unseen test document. The log probability of all words in a document $d$ is denoted by $\{w^*_{nd}\}_{n=1}^{N_d}$. To compute the log probability $l(d)$:
@@ -209,13 +212,14 @@ The expected perplexity of rolls from an $n$-sided die is $n$ and so the expecte
 %
 Documents with a higher prevalence of common words have higher log-probability and hence lower perplexity. Indeed document $d=2001$ has a higher perplexity than the average in set $\Bcal$ so we conclude that this document contain rarer words than in the rest of the set.
 
+\clearpage
 \subsection{Bayesian Mixture Model (BMM)}
 
 We extend our model by introducing the concept of document categories. We define $K$ distinct categories and for each document $d$ we define a new latent variable $z_d \in \{1 \dots K\}$ denoting class membership. We assume the class memberships are drawn from a categorical distribution: $z_d \sim Cat(\theta)$ where the parameter $\theta$ has Dirichlet prior with concentration $\alpha$\footnote{Note that we are using new notation in this section. $\alpha$ is now the Dirichlet parameter over categories and $\gamma$ takes the role of Dirichlet parameter over words.} Each document category $k$ has now a different vector $\beta_k$ from which words are drawn categorically: $(w_{nd} | z_d = k) \sim Cat(\beta_k)$. Each $\beta_k$ has prior $\beta_k \sim Dir(\gamma)$. This model is summarised in figure \ref{fig:bayesian-mixture}.
 %
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=\figwidth]{bayesian-mixture.png}
+	\includegraphics[width=0.6\linewidth]{bayesian-mixture.png}
 	\caption{Bayesian Mixture Model (Mixture of Multinomials)}
 	\label{fig:bayesian-mixture}
 \end{figure}
@@ -223,7 +227,7 @@ We extend our model by introducing the concept of document categories. We define
 We choose uniform Dirichlet priors parameters $\alpha_i = 10, \gamma_i = 0.1 \enspace \forall i$ and perform Gibbs sampling using the training set $\Acal$ to obtain samples for $\theta$, $z_d$ and $\beta_k$. We plot the topic posterior as a function of Gibbs iteration $i$. This is simply the fraction of $\{z_d^{(i)}\}_{d=1}^{D}$ assigned to topic k:
 %
 \begin{equation}
-	\theta^{(i)}_k \approx \frac{1}{D} \sum_{d=1}^{D} \mathbbm{1}(z^{(i)}_d = k)
+	\theta^{(i)}_k \approx \frac{1}{K\alpha_k + D} \left( \alpha_k + \sum_{d=1}^{D} \mathbbm{1}(z^{(i)}_d = k) \right)
 	\label{eqn:bmm-topic-post}
 \end{equation}
 
@@ -245,19 +249,20 @@ The results are given in figure \ref{fig:gibbs-posterior}. We see that only a ha
 		\includegraphics[width=\linewidth]{gibbs-posterior-3.png}
 		\caption{Seed = 100}	
 	\end{subfigure}
-	\caption{BMM - Posterior over categories against Gibbs iteration for various initialisations}
+	\caption{BMM - topic posterior against Gibbs iteration for various initialisations}
 	\label{fig:gibbs-posterior}
 \end{figure}
 
 Furthermore, different initialisations (seeds) yield different stationary distributions. All three Gibbs processes in figure \ref{fig:bayesian-mixture} converge well enough after 30 iterations, however the exact distribution they converge to is different - even after an arbitrary relabelling of categories. The forms of the posterior are in each case different so we cannot say that we converge to the "true" posterior but rather a local optimum that is in some sense "good enough".
 
+\clearpage
 \subsection{Latent Dirichlet Allocation (LDA)}
 
 We make one final extension to our model. Now each document can be an arbitrary blend of the $K$ topics. Now every $n$th word in each document $d$ has its own topic $z_{nd} \sim Dir(\theta_d)$ and the per document topic proportions parameter $\theta_d$ is specific to each document. This extension is summarised in figure \ref{fig:lda-model}.
 %
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=\figwidth]{lda.png}
+	\includegraphics[width=0.6\linewidth]{lda.png}
 	\caption{Latent Dirichlet Allocation model (LDA)}
 	\label{fig:lda-model}
 \end{figure}
@@ -265,28 +270,60 @@ We make one final extension to our model. Now each document can be an arbitrary 
 Now each document can have a mixture of topics drawn from $\theta_d$. Each document's topic posterior can be empirically calculated from the Gibbs samples (in a similar way to equation \ref{eqn:bmm-topic-post}):
 %
 \begin{equation}
-	[\theta^{(i)}_d]_k = \frac{1}{N_d} \sum_{n=1}^{N_d} \mathbbm{1}(z^{(i)}_{nd} = k)
+	[\theta^{(i)}_d]_k = \frac{1}{K\alpha_k + N_d} \left( \alpha_k +  \sum_{n=1}^{N_d} \mathbbm{1}(z^{(i)}_{nd} = k) \right)
+	\label{eqn:lda-post}
 \end{equation}
 
-We can now compare the computed perplexities for the test set $\Bcal$ for each of the methods outlined so far (table \ref{tab:perplex-comp}). As the models get more sophisticated (left to right), the perplexity increases as the test set $\Bcal$ has higher overall log-likelihood. A model with more degrees of freedom will always fit the training set better but it is reassuring to note that we are not over-fitting as performance still improves on unseen test data.
+We use equation \ref{eqn:lda-post} to compute the topic posteriors for a handful of documents against Gibbs iteration and plot the results on figure \ref{fig:lda-post-per-doc}. We see that in general each document exhibits different structure. Document 21 appears the most stable after 50 Gibbs iterations. Topics that continue to oscillate may in general be similar to one another (a consequence of having $K$ too high - as we saw before).
+%
+\begin{figure}[!h]
+	\begin{subfigure}{0.33\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{lda-topic-post-1.png}
+		\caption{Document 1}	
+	\end{subfigure}
+	\begin{subfigure}{0.33\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{lda-topic-post-10.png}
+		\caption{Document 10}
+	\end{subfigure}
+	\begin{subfigure}{0.33\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{lda-topic-post-21.png}
+		\caption{Document 21}	
+	\end{subfigure}
+	\caption{LDA - topic posterior for specific documents against Gibbs iteration}
+	\label{fig:lda-post-per-doc}
+\end{figure}
 
+As it is rather hard to analyse convergence by looking at a single document, we compute the posteriors by considering $\Acal$ as one single very long document; this yields figure \ref{fig:lda-post-av}. We see that topic 6 is by far the most prevalent in the training set. This is partly a consequence of the ``rich get richer'' property of this Gibbs sampler. Nevertheless, the posteriors seem to stabilise sufficiently after 30 Gibbs iterations so 50 is more than sufficient.
+%
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\figwidth]{lda-topic-post-average.png}
+	\caption{Topic posterior averaged over all words in training set $\Acal$}
+	\label{fig:lda-post-av}
+\end{figure}
+
+With the topic posteriors in hand, we can now compare the computed perplexities\footnote{For LDA, the number of Gibbs sweeps can be different for computing posteriors based on the training set and computing perplexities of the test set. In our case, both are set to 50.} for the test set $\Bcal$ for each of the methods outlined so far (table \ref{tab:perplex-comp}). As the models get more sophisticated (left to right), the perplexity increases as the test set $\Bcal$ has higher overall log-likelihood. A model with more degrees of freedom will always fit the training set better but it is reassuring to note that we are not over-fitting as performance still improves on unseen test data.
+%
 \begin{table}[!h]
 	\centering
 	\begin{tabular}{c | c c c c c}
-		& Maximum Likelihood & Simple Bayes Predictive & BMM (seed=100) & LDA (seed = 1) \\ \hline
+		& Maximum Likelihood & Simple Bayes Predictive & BMM (seed=100, its=50) & LDA (seed=1, its=50) \\ \hline
 		Perplexity & $\infty$ & 2697.1 & 2100.7 & 2072.5 
 	\end{tabular}
-\caption{Test set $\Bcal$ perplexity (50 Gibbs iterations used for BMM and LDA)}
+\caption{Test set $\Bcal$ perplexity}
 \label{tab:perplex-comp}
 \end{table}
 
-We can compute the word entropy for each category simply:
+It would be possible to compute the perplexity at each Gibbs iteration and plot but this was too computationally intensive to run (took several hours). Instead, to test convergence we can compute the word entropy for each topic as a function of Gibbs iteration. If an unknown word$w*$ is generated from topic $k$, we know it is distributed as $(w^* | z^* = k) \sim Dir(\beta_k)$. Therefore, its entropy is given by:
 %
 \begin{equation}
 	H(w^* | z^* = k) \approx \sum_{m=1}^{M} \beta_{km} \log \frac{1}{\beta_{km}} = - \beta_k^T \log \beta_k
 \end{equation}
 
-If we choose $\log$ to be the natural logarithm then this entropy would be in units of nats. Base 2 would give us familiar bits. We choose to work in nats as that gives us easier comparison with the perplexity. Indeed, the expected value of the perplexity for a document drawn from a single topic is the exponential of the entropy as shown below:
+Where the $\log$ operation is applied element-wise. If we choose $\log$ to be the natural logarithm (base $e$) then this entropy would be in units of nats. Base 2 would give us the familiar unit of bits. We choose to work in nats as that gives us easier comparison with the perplexity. Indeed, the expected value of the perplexity for a document drawn from a single topic is the exponential of the entropy as shown below:
 %
 \begin{align}
 \begin{split}
@@ -298,7 +335,33 @@ If we choose $\log$ to be the natural logarithm then this entropy would be in un
 \end{split}
 \end{align}
 
-We plot the word entropy of each topic as a function of Gibbs iteration.
+We plot the word entropy of each topic as a function of Gibbs iteration in figure \ref{fig:word-entropy}. The general trend is for a reduction in entropy with Gibbs iteration. This is because topics become more specific as the Gibbs sampler progresses. A more specific topic, has a smaller typical vocabulary and hence lower uncertainty (lower entropy).
+%
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\figwidth]{word-entropy.png}
+	\caption{Entropy for each topic's categorical distribution over words}
+	\label{fig:word-entropy}
+\end{figure}
+
+The entropy of each topic has stabilised after 50 iterations. This, in conjunction with the stability of the posterior, shows 50 Gibbs sweeps to be sufficient for computing the perplexity. The log of perplexity of the test set $\log 2072.5 = 7.63$. This is modestly higher than the entropy of any particular topic, which is expected as the overall test set is a blend of topic and hence higher entropy than any individual specific topic.
+
+For interest we plot the top 20 words for the topic with lowest entropy ($k=4$) and that with highest posterior ($k=6$) 
+%
+\begin{figure}[!h]
+	\begin{subfigure}{0.5\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{topic-4-words.png}
+		\caption{Lowest word entropy - topic 4}	
+	\end{subfigure}
+	\begin{subfigure}{0.5\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{topic-6-words.png}
+		\caption{Highest posterior - topic 6}
+	\end{subfigure}
+	\caption{LDA - comparison of lowest entropy and highest posterior topics}
+	\label{fig:top-topics}
+\end{figure}
 
 \textbf{Words}: XX
 
