@@ -126,7 +126,7 @@ Instead, we can perform Bayesian inference to ameliorate these issues. We assume
 %
 \begin{align}
 	P(\beta | \Acal) &\propto P(\beta) \cdot P(\Acal | \beta) \nonumber \\
-	&= \left( \frac{1}{B(\alpha)} \prod_{m = 1}^{M} \beta_m^{\alpha_m -1} \right) \cdot \prod_{p=1}^{M} \beta_m^{c_m} \nonumber \\
+	&= \left( \frac{1}{B(\alpha)} \prod_{m = 1}^{M} \beta_m^{\alpha_m -1} \right) \cdot \prod_{p=1}^{M} \beta_p^{c_p} \nonumber \\
 	&\propto \prod_{m = 1}^{M} \beta_m^{(\alpha_m + c_m) -1} \nonumber \\
 	&\propto Dir(\beta ; \alpha + c) \nonumber \\
 	\therefore P(\beta | \Acal) &= Dir(\beta ; \alpha + c)
