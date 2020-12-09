@@ -38,6 +38,7 @@
 \newcommand{\iid}{\stackrel{iid}{\sim}}
 \newcommand{\figwidth}{0.4\linewidth}
 \newcommand{\betaml}{\hat{\beta}^{ML}}
+\newcommand{\betastar}{\hat{\beta}^{*}}
 \newcommand{\Expect}{\mathbb{E}}
 
 
@@ -55,36 +56,34 @@
 
 \section{Introduction}
 
-We have a document test set $\Acal$, which consists of $D$ documents indexed by $d \in \{1 \dots D\}$. A document is an ordered list of words. The vocabulary $\Mcal$ has $M=|\Mcal|$ unique words. We denote the $n$'th word in the $d$'th document by $w_{nd} \in \{1 \dots N_d\}$. Where $N_d$ is the length of document $d$. For simplicity we denote the count of occurrences of word $m$ in the training set by $c_m$.
-
-We hold back a test set $\Bcal$ to calculate the performance of our approaches.
+We have a document training set $\Acal$, which consists of $D$ documents indexed by $d \in \{1 \dots D\}$. A document is simply an ordered list of words. All words are drawn from a vocabulary indexed by $m \in \Mcal = \{1 \dots M\}$. We denote the $n$'th word in the $d$'th document by $w_{nd} \in \Mcal$ for $n \in \{1 \dots N_d\}$. Here $N_d$ denotes the length of document $d$. For simplicity, we denote the count of occurrences of word $m$ in the training set by $c_m$. We hold back a test set $\Bcal$ to calculate the performance of our approaches.
 
 \clearpage
 \section{Questions}
 \subsection{Maximum Likelihood}
 
-We begin by assuming that each word is drawn independently from a categorical distribution with parameter $\beta$: $w_{nd} \iid Cat(\beta)$. In this case $\beta$ is a $M \times 1$ vector with the conditions that $\sum_{m=1}^{M} \beta_m = 1$ and $\beta_i \geq 0$. The likelihood of the parameter $\beta$ is the probability of the dataset given $\beta$:
+We begin assuming each word is drawn independently from the same categorical distribution with parameter $\beta$ such that $w_{nd} \sim Cat(\beta)$. In this case $\beta$ is a $M \times 1$ vector subject to the constraints: $\sum_{m=1}^{M} \beta_m = 1$ and $\beta_i \geq 0$. The likelihood of $\beta$ ($L(\beta)$) is the probability of the training dataset $\Acal$ given $\beta$:
 %
 \begin{equation}
 	L(\beta) = P(\Acal | \beta) = \prod_{d=1}^{D} \prod_{n=1}^{N_d} P(w_{nd} | \beta) = \prod_{m \in \Mcal} \beta_m ^{c_m}
 \end{equation}
 %
-Where $c_m$ is the count of word $m$ in the training set. We wish to obtain the Maximum-Likelihood estimate $\betaml = \argmax L(\beta)$. We prefer to maximise the log-likelihood as this is more tractable:
+Where $c_m$ is the count of word $m$ in the training set. To obtain the Maximum-Likelihood estimate $\betaml \coloneqq \argmax L(\beta)$, we maximise the log-likelihood $\Lcal(\beta)$ as this is more tractable:
 %
 \begin{equation}
-	\Lcal(\beta) = \log L(\beta) = \sum_{m \in \Mcal} c_m \log \beta_m
+	\Lcal(\beta) \coloneqq \log L(\beta) = \sum_{m \in \Mcal} c_m \log \beta_m
 \end{equation}
 %
-We can now take derivatives and include a Lagrange multiplier to respect the sum to 1 constraint:
+We can now take derivatives and include a Lagrange multiplier term to respect the sum to 1 constraint:
 %
 \begin{equation*}
-	\frac{\partial}{\partial \beta_i}  \left\{ \Lcal(\beta) + \lambda \left(1 - \sum_{m=1}^{M} \beta_m \right) \right\}_{\beta = \betaml} = \frac{c_i}{\betaml_i} - \lambda= 0
+	\frac{\partial}{\partial \beta_i}  \left. \left\{ \Lcal(\beta) + \lambda \left(1 - \sum_{m=1}^{M} \beta_m \right) \right\} \right|_{\beta = \betaml} = \frac{c_i}{\betaml_i} - \lambda= 0
 \end{equation*}
 \begin{equation}
 	\therefore \betaml_i = \frac{c_i}{\lambda} = \frac{c_i}{\sum_{m \in \Mcal} c_m} = \frac{c_i}{C}
 \end{equation}
 %
-Therefore, the ML estimate is simply the empirical frequency of each word (normalised by the sum of all counts $C$). For the training set $\Acal$ we have $C_\Acal = 271898$.
+The Lagrange multiplier $\lambda = C$ to respect the sum-to-one constraint on the $\beta$ components. Therefore, the ML estimate is simply the empirical frequency of each word (normalised by the sum of all counts $C$). For the training set $\Acal$, we have $C_\Acal = 271898$.
 %
 \begin{figure}[!h]
 	\begin{subfigure}{0.5\linewidth}
@@ -102,19 +101,20 @@ Therefore, the ML estimate is simply the empirical frequency of each word (norma
 	\caption{ML estimate of word probabilities trained on set $\Acal$}
 	\label{fig:hist-ml}
 \end{figure}
-%
-Figure \ref{fig:hist-ml-max} shows the empirical frequencies of the top 20 words in document set $\Acal$. We have that $\betaml_{\max} \coloneqq \frac{\max_i c_i}{C} = \frac{3833}{271898}$ for the word \textit{``bush''} (the president - not the foliage). Likewise $\betaml_{\min} \coloneqq \frac{\min c_i}{C} = 0$ as there are some words in the vocabulary $\Mcal$ that never appear in the training set $\Acal$ (such as \textit{``bulb''} in \ref{fig:hist-ml-min}). Indeed, each new word $w^*$ under ML is assumed to be drawn from:
+
+
+Figure \ref{fig:hist-ml-max} shows the empirical frequencies of the top 20 words in document set $\Acal$. We have that $\betaml_{\max} \coloneqq \frac{\max_i c_i}{C} = \frac{3833}{271898}$ for the word \textit{``bush''} (the president - not the foliage). Similarly $\betaml_{\min} \coloneqq \frac{\min c_i}{C} = 0$ as there are some words in the vocabulary $\Mcal$ that never appear in the training set $\Acal$ (such as \textit{``bulb''} in \ref{fig:hist-ml-min}). Indeed, each new word $w^*$ under ML is assumed to be drawn from equation \ref{eqn:ml-est}:
 %
 \begin{equation}
 	P(w^* = i | \betaml) = \frac{c_i}{C}
 	\label{eqn:ml-est}
 \end{equation}
 %
-Therefore, if we have an arbitrary test set $\mathcal{T}$ that is $T$ words long. The maximum probability test set would be $T$ repetitions of \textit{``bush''}. The lowest probability test set need only have a single word with zero probability under our ML estimate (e.g. \textit{``bulb''}) to make the probability of the whole multiply to 0.
+Therefore, if we have an arbitrary test set $\mathcal{T}$, that is $T$ words long. The maximum probability test set would be $T$ repetitions of \textit{``bush''}. The lowest probability test set need only have a single word with zero probability under our ML estimate (e.g. \textit{``bulb''}) to make the probability of the whole multiply to 0. The highest and lowest test set log-probabilities (base $e$) are given by:
 %
 \begin{align}
-	\log P(\mathcal{T}) |_{\max} &= T \log \betaml_{\max} = T \log \frac{3833}{271898} \\
-	\log P(\mathcal{T}) |_{\min} &= \log 0 = - \infty
+	\max_{|\mathcal{T}| = T} \log P(\mathcal{T} | \betaml) &= T \log \betaml_{\max} = T \log \frac{3833}{271898} = -4.26T \\
+	\min_{|\mathcal{T}| = T} \log P(\mathcal{T} | \betaml) &= \log 0 = - \infty
 \end{align}
 %
 This is clearly unsatisfactory; a feasible test set should not have zero probability. Therefore, the ML estimate is insufficient.
@@ -122,7 +122,7 @@ This is clearly unsatisfactory; a feasible test set should not have zero probabi
  \clearpage
 \subsection{Bayesian Inference}
 
-Instead, we can perform Bayesian inference to ameliorate these issues. We assume the probability vector $\beta$ has a Dirichlet prior $\beta \sim Dir(\beta ; \alpha)$ with concentration parameter $\alpha$ - where $\alpha$ and $\beta$ are the same shape. We perform Bayesian inference to obtain the posterior for $\beta$.
+Instead, we can perform Bayesian inference to ameliorate these issues. We assume the probability vector $\beta$ has a Dirichlet prior with concentration parameter $\alpha$ such that $\beta \sim Dir(\beta ; \alpha)$. We perform Bayesian inference to obtain the posterior for $\beta$.
 %
 \begin{align}
 	P(\beta | \Acal) &\propto P(\beta) \cdot P(\Acal | \beta) \nonumber \\
@@ -133,7 +133,7 @@ Instead, we can perform Bayesian inference to ameliorate these issues. We assume
 	\label{eqn:posterior}
 \end{align}
 %
-Where, $c$ is now a vector of word counts. We say that the Dirichlet distribution is a conjugate prior to the categorical / multinomial distribution because the posterior is also Dirichlet (albeit with a new parameter). We now seek to compute the predictive distribution for a new word $w^*$ given the posterior.
+Where, $c$ is now a vector of word counts. We say that the Dirichlet distribution is a conjugate prior to the categorical (or multinomial) distribution as the posterior is also Dirichlet (albeit with a new parameter). We now seek to compute the predictive distribution for an unseen word $w^*$ given the posterior.
 %
 \begin{align}
 \begin{split}
@@ -144,16 +144,17 @@ Where, $c$ is now a vector of word counts. We say that the Dirichlet distributio
 	&= \Expect_{\beta_i | \Acal} [\beta_i] \\
 	&= \frac{\alpha_i + c_i}{\sum_{m=1}^{M} \alpha_m + c_m} \coloneqq \hat{\beta}^*_i
 \end{split}
+\label{eqn:bayes-pred}
 \end{align}
 %
-Where the last line is a simple property of the Dirichlet: the mean of each component is proportional to the corresponding parameter value (subject to normalisation). An interesting observation is that the predictive distribution is exactly equal to that computed using the MAP estimate ($\hat{\beta}^* = \hat{\beta}^{MAP}$). If we consider only a symmetric Dirichlet such that $\alpha = a \mathbf{1}$. The previous expression reduces to:
+Where the last line is a simple a property of the Dirichlet: the mean of each component is proportional to the corresponding parameter value (subject to normalisation). An interesting observation is that the predictive distribution is exactly equal to that computed using the MAP estimate ($\hat{\beta}^* = \hat{\beta}^{MAP}$). If we consider only a symmetric Dirichlet such that $\alpha = a \mathbf{1}$. The previous expression reduces to:
 %
 \begin{equation}
 	P(w^* = i | \Acal) = \frac{a + c_i}{Ma + C}
 	\label{eqn:pred-bayes}
 \end{equation}
 %
-By comparing equations \ref{eqn:ml-est} and \ref{eqn:pred-bayes}, we see that the posterior has the effect of adding a pseudo-count $a$ to each word prior to observing the training set $\Acal$.
+By comparing equations \ref{eqn:ml-est} and \ref{eqn:pred-bayes}, we see that the Bayesian approach is equivalent to ML if we add a pseudo-count $a$ to each word count $c_m$ observed in the training set $\Acal$. We wish to see which words gain probability as a result:
 %
 \begin{align}
 \begin{split}
@@ -164,41 +165,44 @@ By comparing equations \ref{eqn:ml-est} and \ref{eqn:pred-bayes}, we see that th
 \end{split}
 \end{align}
 %
-As the prior is symmetric the same pseudo-count $a$ is added to each word. Those with $c_i < C/M$ gain probability and those with $c_i > C/M$ lose it. The effect is that all word probabilities are drawn closer to $C/M$ but importantly no probability rank orderings stay the same. The larger the value of $a$, the stronger this effect and the less importance is assigned to the frequency observations in $\Acal$.
+Those with $c_i < C/M$ gain probability and those with $c_i > C/M$ lose it. All word probabilities are drawn closer to $1/M$ but probability rank orderings are unchanged (the overall distribution is simply drawn closer to the uniform). The larger the value of $a$, the stronger this effect and the less relative importance is assigned to the observed counts in $\Acal$.
 
 \clearpage
 \subsection{Testing Performance of Bayesian Predictor}
 
-We now apply this Bayesian analysis to an unseen test document. The log probability of all words in a document $d$ is denoted by $\{w^*_{nd}\}_{n=1}^{N_d}$. To compute the log probability $l(d)$:
+We now apply this Bayesian analysis to an unseen test document. The set of all words in a document $d$ is denoted $\{w^*_{nd}\}_{n=1}^{N_d}$. To compute $l(d)$, the log probability of document $d$:
 %
 \begin{align}
 \begin{split}
 	l(d) &\coloneqq \log P(\{w^*_{nd}\}_{n=1}^{N_d} | \Acal) \\
 	&= \log \prod_{n=1}^{N_d} P(w^*_{nd} | \Acal) \\
-	&= \log \prod_{m = 1}^{M} P(w^*=m | \Acal)^{c^*_{md}} \\
-	&= \sum_{m=1}^{M} c^*_{md} \log P(w^* = m | \Acal) \\
-	&= \sum_{m=1}^{M} c^*_{md} \log \frac{a+c_m}{Ma+C} \\
-	&= (c^*_d)^T \log \hat{\beta}^{*}
+	&= \log \prod_{m = 1}^{M} P(w^*=m | \Acal)^{c^*_{m}} \\
+	&= \sum_{m=1}^{M} c^*_{m} \log P(w^* = m | \Acal) \\
+	&= (c^*)^T (\log \betastar)
 \end{split}
 \label{eqn:test-doc-prob}
 \end{align}
 %
-Where $c^*_{md}$ is the count of word $m$ in the unseen document $d$. All words are independent, hence how we can factorise the first line. Word order matters. Therefore, we treat a document as a sequence of categorical r.v.'s rather than a single multinomial over word counts; we omit a combinatoric term for all the various permutations of words in a document. The phrase \textit{``Bush beats Kerry''} is very different to \textit{``Kerry beats Bush''} so we treat each phrase as a separate document rather than combining their probabilities.
+Where $c^*_{m}$ is the count of word $m$ in the unseen document $d$. We factorised the second line by noting all words are independent.
 
- We set the pseudo-count parameter to $a=0.1$ (there is no integer requirement) and apply equation \ref{eqn:test-doc-prob} to test document $d=2001$, to obtain:
- %
- \begin{equation}
- 	l(d=2001)|_{a=0.1} = -3691.2
- \end{equation}
- %
- As well as the log probability of document $d$, we are interested in the per-word perplexity $p(d)$ defined in equation \ref{eqn:perplex}.
+Nevertheless, word order matters. Therefore, we treat a document as a sequence of categorical r.v.'s rather than a single multinomial over word counts; we omit a combinatoric term for all the various permutations of words in a document. The phrase \textit{``Bush beats Kerry''} is very different to \textit{``Kerry beats Bush''} so we treat each phrase as a separate document rather than summing their probabilities.
+
+We set the pseudo-count parameter to $a=0.1$ (there is no integer requirement) and apply equation \ref{eqn:test-doc-prob} to test document $d=2001$, to obtain:
+%
+\begin{equation}
+	l(d=2001)|_{a=0.1} = -3691.2
+\end{equation}
+%
+As well as $l(d)$, we are interested in the per-word perplexity $p(d)$ - as defined in equation \ref{eqn:perplex}.
 %
 \begin{equation}
 p(d) \coloneqq \exp \left(- \frac{l(d)}{N_d} \right)
 \label{eqn:perplex}
 \end{equation}
 %
-The expected perplexity of rolls from an $n$-sided die is $n$ and so the expected perplexity for samples drawn from a uniform multinomial with $M$ total categories would be $M$. This is the maximum perplexity of a multinomial with $M$ categories as we have maximum uncertainty. We can compute the perplexities for a single document or for all documents by simply concatenating documents after one another. The results are given in table \ref{tab:perplex}.
+The expected perplexity for rolls from an $n$-sided die is $n$ and so the expected perplexity for samples drawn from a uniform multinomial with $n$ total categories is also $n$. In our case, we have $M$ total words in our vocabulary; if we draw $N$ words from an arbitrary multinomial with $M$ categories, the perplexity will always be bounded below this value: $\lim_{N \rightarrow \infty}p(\{w_n\}_{n=1}^{N}) \leq M$. Though if we draw only a few words then we can exceed this perplexity.
+
+We compute the perplexities for a single document $d=2001$ and for all documents in $\Bcal$. We can compute overall perplexity by treating the whole set $\Bcal$ as one long document. The results are given in table \ref{tab:perplex}.
 %
 \begin{table}[!h]
 	\centering
@@ -209,13 +213,13 @@ The expected perplexity of rolls from an $n$-sided die is $n$ and so the expecte
 \caption{Perplexities of documents in test set $\Bcal$ ($a=0.1$)}
 \label{tab:perplex}
 \end{table}
-%
-Documents with a higher prevalence of common words have higher log-probability and hence lower perplexity. Indeed document $d=2001$ has a higher perplexity than the average in set $\Bcal$ so we conclude that this document contain rarer words than in the rest of the set.
+
+Documents with a higher prevalence of common words have higher log-probability and hence lower perplexity. Indeed document $d=2001$ has a higher perplexity than the average in set $\Bcal$ so we conclude that this document must contain a higher proportion of rare words (with respect to the training set $\Acal$) than the rest of the test set $\Bcal$.
 
 \clearpage
 \subsection{Bayesian Mixture Model (BMM)}
 
-We extend our model by introducing the concept of document categories. We define $K$ distinct categories and for each document $d$ we define a new latent variable $z_d \in \{1 \dots K\}$ denoting class membership. We assume the class memberships are drawn from a categorical distribution: $z_d \sim Cat(\theta)$ where the parameter $\theta$ has Dirichlet prior with concentration $\alpha$\footnote{Note that we are using new notation in this section. $\alpha$ is now the Dirichlet parameter over categories and $\gamma$ takes the role of Dirichlet parameter over words.} Each document category $k$ has now a different vector $\beta_k$ from which words are drawn categorically: $(w_{nd} | z_d = k) \sim Cat(\beta_k)$. Each $\beta_k$ has prior $\beta_k \sim Dir(\gamma)$. This model is summarised in figure \ref{fig:bayesian-mixture}.
+We extend our model by introducing the concept of document categories (topics). We define $K$ distinct categories and for each document $d$ we define a new latent variable $z_d \in \{1 \dots K\}$ denoting class membership. We assume the class memberships are drawn from a categorical distribution: $z_d \sim Cat(\theta)$, where the parameter $\theta$ has Dirichlet prior with concentration $\alpha$\footnote{Note that we are using new notation in this section. $\alpha$ is now the Dirichlet parameter over categories and $\gamma$ takes the role of Dirichlet parameter over words.} Each document category $k$ has now a different vector $\beta_k$ from which words are drawn categorically: $(w_{nd} | z_d = k) \sim Cat(\beta_k)$. Each $\beta_k$ has prior $\beta_k \sim Dir(\gamma)$. This model is summarised in figure \ref{fig:bayesian-mixture}.
 %
 \begin{figure}[!h]
 	\centering
@@ -224,14 +228,14 @@ We extend our model by introducing the concept of document categories. We define
 	\label{fig:bayesian-mixture}
 \end{figure}
 
-We choose uniform Dirichlet priors parameters $\alpha_i = 10, \gamma_i = 0.1 \enspace \forall i$ and perform Gibbs sampling using the training set $\Acal$ to obtain samples for $\theta$, $z_d$ and $\beta_k$. We plot the topic posterior as a function of Gibbs iteration $i$. This is simply the fraction of $\{z_d^{(i)}\}_{d=1}^{D}$ assigned to topic k:
+We choose uniform Dirichlet priors parameters $\alpha_i = 10, \gamma_i = 0.1 \enspace \forall i$ and perform Gibbs sampling using the training set $\Acal$ to obtain samples for $\theta$, $z_d$ and $\beta_k$. We plot the topic posterior as a function of Gibbs iteration $i$ (equation \ref{eqn:bmm-topic-post}). This is simply the fraction of $\{z_d^{(i)}\}_{d=1}^{D}$ assigned to topic k plus the prior term:
 %
 \begin{equation}
 	\theta^{(i)}_k \approx \frac{1}{K\alpha_k + D} \left( \alpha_k + \sum_{d=1}^{D} \mathbbm{1}(z^{(i)}_d = k) \right)
 	\label{eqn:bmm-topic-post}
 \end{equation}
 
-The results are given in figure \ref{fig:gibbs-posterior}. We see that only a handful of categories have high posterior proportions. This suggests that our value of $K=20$ is unnecessarily high. 
+The results are given in figure \ref{fig:bmm-post}. We see that only a handful of categories have high posterior proportions. This suggests that our value of $K=20$ is unnecessarily high. We could have fewer topics that still explain the majority of variation well.
 %
 \begin{figure}[!h]
 	\begin{subfigure}{0.33\linewidth}
@@ -250,15 +254,15 @@ The results are given in figure \ref{fig:gibbs-posterior}. We see that only a ha
 		\caption{Seed = 100}	
 	\end{subfigure}
 	\caption{BMM - topic posterior against Gibbs iteration for various initialisations}
-	\label{fig:gibbs-posterior}
+	\label{fig:bmm-post}
 \end{figure}
 
-Furthermore, different initialisations (seeds) yield different stationary distributions. All three Gibbs processes in figure \ref{fig:bayesian-mixture} converge well enough after 30 iterations, however the exact distribution they converge to is different - even after an arbitrary relabelling of categories. The forms of the posterior are in each case different so we cannot say that we converge to the "true" posterior but rather a local optimum that is in some sense "good enough".
+Furthermore, different initialisations (seeds) yield different stationary distributions. All three Gibbs processes in figure \ref{fig:bmm-post} converge well enough after 30 iterations but the distribution they converge to is different in each case. This remains the case even after an arbitrary relabelling of categories. As different initialisations yield different final states, we cannot say we ever converge to the ``true'' posterior but rather a local optimum that is in some sense ``good enough''.
 
 \clearpage
 \subsection{Latent Dirichlet Allocation (LDA)}
 
-We make one final extension to our model. Now each document can be an arbitrary blend of the $K$ topics. Now every $n$th word in each document $d$ has its own topic $z_{nd} \sim Dir(\theta_d)$ and the per document topic proportions parameter $\theta_d$ is specific to each document. This extension is summarised in figure \ref{fig:lda-model}.
+We make one final extension to our model. Now each document can be an arbitrary blend of the $K$ topics. Every $n$th word in each document $d$ is given its own latent topic $z_{nd} \sim Dir(\theta_d)$ and the per document topic proportions parameter $\theta_d$ is specific to each document. This extension is summarised in figure \ref{fig:lda-model}.
 %
 \begin{figure}[!h]
 	\centering
@@ -267,14 +271,14 @@ We make one final extension to our model. Now each document can be an arbitrary 
 	\label{fig:lda-model}
 \end{figure}
 
-Now each document can have a mixture of topics drawn from $\theta_d$. Each document's topic posterior can be empirically calculated from the Gibbs samples (in a similar way to equation \ref{eqn:bmm-topic-post}):
+With this extension, the words in each document can be drawn from different topics, each drawn from $Cat(\theta_d)$. Each document's topic posterior can be empirically calculated from the Gibbs samples (in a similar way to equation \ref{eqn:bmm-topic-post}):
 %
 \begin{equation}
 	[\theta^{(i)}_d]_k = \frac{1}{K\alpha_k + N_d} \left( \alpha_k +  \sum_{n=1}^{N_d} \mathbbm{1}(z^{(i)}_{nd} = k) \right)
 	\label{eqn:lda-post}
 \end{equation}
 
-We use equation \ref{eqn:lda-post} to compute the topic posteriors for a handful of documents against Gibbs iteration and plot the results on figure \ref{fig:lda-post-per-doc}. We see that in general each document exhibits different structure. Document 21 appears the most stable after 50 Gibbs iterations. Topics that continue to oscillate may in general be similar to one another (a consequence of having $K$ too high - as we saw before).
+We use equation \ref{eqn:lda-post} to compute the topic posteriors for a handful of documents against Gibbs iteration and plot the results on figure \ref{fig:lda-post-per-doc}. Each document behaves differently. Document 21 appears the most stable after 50 Gibbs iterations. Topics that continue to oscillate may be similar to one another (a consequence of having $K$ too high) so the same word has similar probability of being drawn from either topic.
 %
 \begin{figure}[!h]
 	\begin{subfigure}{0.33\linewidth}
@@ -296,7 +300,7 @@ We use equation \ref{eqn:lda-post} to compute the topic posteriors for a handful
 	\label{fig:lda-post-per-doc}
 \end{figure}
 
-As it is rather hard to analyse convergence by looking at a single document, we compute the posteriors by considering $\Acal$ as one single very long document; this yields figure \ref{fig:lda-post-av}. We see that topic 6 is by far the most prevalent in the training set. This is partly a consequence of the ``rich get richer'' property of this Gibbs sampler. Nevertheless, the posteriors seem to stabilise sufficiently after 30 Gibbs iterations so 50 is more than sufficient.
+As it is rather hard to analyse convergence by looking at a single document, we compute the posteriors by considering $\Acal$ as one single, very long document; this yields figure \ref{fig:lda-post-av}. We see that topic 6 is by far the most prevalent in the training set. This is partly a consequence of the ``rich get richer'' property of this Gibbs sampler. Nevertheless, the posteriors seem to stabilise sufficiently after 30 Gibbs iterations so 50 is more than sufficient.
 %
 \begin{figure}[!h]
 	\centering
@@ -305,7 +309,7 @@ As it is rather hard to analyse convergence by looking at a single document, we 
 	\label{fig:lda-post-av}
 \end{figure}
 
-With the topic posteriors in hand, we can now compare the computed perplexities\footnote{For LDA, the number of Gibbs sweeps can be different for computing posteriors based on the training set and computing perplexities of the test set. In our case, both are set to 50.} for the test set $\Bcal$ for each of the methods outlined so far (table \ref{tab:perplex-comp}). As the models get more sophisticated (left to right), the perplexity increases as the test set $\Bcal$ has higher overall log-likelihood. A model with more degrees of freedom will always fit the training set better but it is reassuring to note that we are not over-fitting as performance still improves on unseen test data.
+With the topic posteriors in hand, we can now compare the computed perplexities\footnote{For LDA, the number of Gibbs sweeps can be different for computing posteriors based on the training set and computing perplexities of the test set. In our case, both are set to 50.} for the test set $\Bcal$ for each of the methods outlined so far (table \ref{tab:perplex-comp}). As the models get more sophisticated (left to right), the perplexity decreases. In other words, the test set $\Bcal$ has lower overall log-likelihood under the more complex models. A model with more degrees of freedom will always fit the training set $\Acal$ better than a simpler model. However, it is reassuring to note that we are not over-fitting as performance still improves on the unseen test data $\Bcal$.
 %
 \begin{table}[!h]
 	\centering
@@ -317,20 +321,26 @@ With the topic posteriors in hand, we can now compare the computed perplexities\
 \label{tab:perplex-comp}
 \end{table}
 
-It would be possible to compute the perplexity at each Gibbs iteration and plot but this was too computationally intensive to run (took several hours). Instead, to test convergence we can compute the word entropy for each topic as a function of Gibbs iteration. If an unknown word$w*$ is generated from topic $k$, we know it is distributed as $(w^* | z^* = k) \sim Dir(\beta_k)$. Therefore, its entropy is given by:
+It would be possible to compute the perplexity at each Gibbs iteration and plot but this was too computationally intensive to run (each perplexity computation took half an hour for $K=20$). Instead, to test convergence, we compute the word entropy for each topic as a function of Gibbs iteration. If an unknown word $w*$ is generated from topic $k$, we know it is distributed as $(w^* | z^* = k) \sim Cat(\betastar_k)$. Where $\betastar_k$ is given by modifying equation \ref{eqn:bayes-pred} to use the updated notation:
 %
 \begin{equation}
-	H(w^* | z^* = k) \approx \sum_{m=1}^{M} \beta_{km} \log \frac{1}{\beta_{km}} = - \beta_k^T \log \beta_k
+	\betastar_{km} = \frac{\gamma_m + c_{km}}{\sum_{i=1}^{M} \gamma_i + c_{ki}}
 \end{equation}
 
-Where the $\log$ operation is applied element-wise. If we choose $\log$ to be the natural logarithm (base $e$) then this entropy would be in units of nats. Base 2 would give us the familiar unit of bits. We choose to work in nats as that gives us easier comparison with the perplexity. Indeed, the expected value of the perplexity for a document drawn from a single topic is the exponential of the entropy as shown below:
+Where, $c_{km}$ denotes the count of word $m$ assigned to topic $k$. Therefore, the entropy of a word drawn from topic $k$ is given by:
+%
+\begin{equation}
+	H(w^* | z^* = k) \approx \sum_{m=1}^{M} \betastar_{km} \log \frac{1}{\betastar_{km}} = - (\betastar_k)^T (\log \betastar_k )
+\end{equation}
+
+Where the $\log$ operation is applied element-wise. If we choose $\log$ to be the natural logarithm (base $e$) then this entropy would be in units of nats. Base 2 would give us the familiar unit of bits. We choose to work in nats as that gives us easier comparison with the perplexity. Indeed, the natural logarithm of the perplexity for an infinitely long document drawn from a single topic $k$ is expected to be the the entropy in nats, as shown below:
 %
 \begin{align}
 \begin{split}
 	\log(p(d|z=k)) &= - \frac{1}{N_d} l(d) \\
-	&= - \frac{1}{N_d} \sum_{m=1}^{M} c_m \log \beta_{km} \\
-	\therefore \Expect [\log(p(d|z=k))] &= \sum_{m=1}^{M} \Expect \left[ \frac{c_m}{N_d} \right] \log \frac{1}{\beta_{km}} \\
-	&= \sum_{m=1}^{M} \beta_{km} \log \frac{1}{\beta_{km}} \\
+	&= - \frac{1}{N_d} \sum_{m=1}^{M} c^*_m \log \betastar_{km} \\
+	\therefore \lim_{N_d \rightarrow \infty} [\log(p(d|z=k))] &= \sum_{m=1}^{M} \lim_{N_d \rightarrow \infty} \left[ \frac{c^*_m}{N_d} \right] \log \frac{1}{\betastar_{km}} \\
+	&= \sum_{m=1}^{M} \betastar_{km} \log \frac{1}{\betastar_{km}} \\
 	&= H(w^* | z^* = k)
 \end{split}
 \end{align}
@@ -344,7 +354,7 @@ We plot the word entropy of each topic as a function of Gibbs iteration in figur
 	\label{fig:word-entropy}
 \end{figure}
 
-The entropy of each topic has stabilised after 50 iterations. This, in conjunction with the stability of the posterior, shows 50 Gibbs sweeps to be sufficient for computing the perplexity. The log of perplexity of the test set $\log 2072.5 = 7.63$. This is modestly higher than the entropy of any particular topic, which is expected as the overall test set is a blend of topic and hence higher entropy than any individual specific topic.
+The entropy of each topic has stabilised after 50 iterations. This, in conjunction with the overall stability of the topic posterior (figure \ref{fig:lda-post-av}), shows 50 Gibbs sweeps to be sufficient for computing the perplexity. The log-perplexity of the test set under LDA is $\log 2072.5 = 7.63$. This is modestly higher than the entropy of any particular topic. This result is expected as the overall test set is a blend of topics and hence higher entropy than any individual specific topic.
 
 For interest we plot the top 20 words for the topic with lowest entropy ($k=4$) and that with highest posterior ($k=6$). This is shown on figure \ref{fig:top-topics}. The lowest entropy topic 4 appears to be rather technical analysis of polling data. A high fraction of the probability is contained in just a few top words - hence low entropy. On the other hand, topic 6 (the most prevalent) gives generic vocabulary for speaking about the November general election.
 %
@@ -363,6 +373,6 @@ For interest we plot the top 20 words for the topic with lowest entropy ($k=4$) 
 	\label{fig:top-topics}
 \end{figure}
 
-\textbf{Words}: 933
+\textbf{Words}: 979
 
 \end{document}
